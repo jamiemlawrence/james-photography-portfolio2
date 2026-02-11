@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { css, keyframes } from '@emotion/react';
 import { Instagram, Mail, Menu, X } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 // Fade-in animation keyframe
 const fadeIn = keyframes`
@@ -544,6 +546,11 @@ const Hero = () => {
 
 // Portfolio Grid Section
 const PortfolioGrid = () => {
+
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentCategory, setCurrentCategory] = useState([]);
+
   const categories = [
     {
       title: 'CYCLE',
@@ -591,6 +598,12 @@ const PortfolioGrid = () => {
       ]
     }
   ];
+
+  const openLightbox = (images, index) => {
+    setCurrentCategory(images);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
 
   const sectionStyles = css`
     padding: 3rem 1rem;
@@ -685,6 +698,15 @@ const PortfolioGrid = () => {
     aspect-ratio: 4/5;
     overflow: hidden;
     cursor: pointer;
+    position: relative;
+
+    &:hover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      transition: opacity 0.3s;
+    }
   `;
 
   const imageStyles = css`
@@ -710,7 +732,11 @@ const PortfolioGrid = () => {
               <h3 css={categoryTitleStyles}>{category.title}</h3>
               <div css={gridStyles}>
                 {category.images.map((image, imgIdx) => (
-                  <div key={imgIdx} css={imageContainerStyles}>
+                  <div 
+                    key={imgIdx} 
+                    css={imageContainerStyles}
+                    onClick={() => openLightbox(category.images, imgIdx)}
+                  >
                     <img 
                       src={image}
                       alt={`${category.title} ${imgIdx + 1}`}
@@ -723,9 +749,21 @@ const PortfolioGrid = () => {
           </FadeIn>
         ))}
       </div>
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={currentCategory.map(src => ({ src }))}
+        styles={{
+          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
+        }}
+        carousel={{ finite: false }}
+        controller={{ closeOnBackdropClick: true }}
+      />
     </section>
   );
 };
+
 // Video Section
 const Video = () => {
   const sectionStyles = css`
