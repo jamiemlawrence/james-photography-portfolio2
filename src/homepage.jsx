@@ -558,7 +558,19 @@ const PortfolioGrid = () => {
       images: [
         '/photos/cycle0.jpg',
         '/photos/cycle7.jpg',
-        '/photos/cycle9.jpg'
+        '/photos/cycle9.jpg',
+        '/photos/cycle1.jpg',
+        '/photos/cycle2.jpg',
+        '/photos/cycle3.jpg',
+        '/photos/cycle4.jpg',
+        '/photos/cycle5.jpg',
+        '/photos/cycle6.jpg',
+        '/photos/cycle8.jpg',
+        '/photos/cycle10.jpg',
+        '/photos/cycle11.jpg',
+        '/photos/cycle12.jpg',
+        '/photos/cycle13.jpg',
+        '/photos/cycle14.jpg',
       ]
     },
     {
@@ -576,6 +588,12 @@ const PortfolioGrid = () => {
       images: [
         '/photos/ski6.jpg',
         '/photos/ski3.jpg',
+        '/photos/ski7.jpg',
+        '/photos/photoski.jpg',
+        '/photos/ski1.jpg',
+        '/photos/ski2.jpg',
+        '/photos/ski4.jpg',
+        '/photos/ski5.jpg',
         '/photos/ski7.jpg'
       ]
     },
@@ -585,7 +603,14 @@ const PortfolioGrid = () => {
       images: [
         '/photos/life1.jpg',
         '/photos/life11.jpg',
-        '/photos/life10.jpg'
+        '/photos/life10.jpg',
+        '/photos/life2.jpg',
+        '/photos/life3.jpg',
+        '/photos/life4.jpg',
+        '/photos/life5.jpg',
+        '/photos/life6.jpg',
+        '/photos/life12.jpg',
+        '/photos/life13.jpg',
       ]
     },
     {
@@ -594,7 +619,10 @@ const PortfolioGrid = () => {
       images: [
         '/photos/food1.jpg',
         '/photos/food5.jpg',
-        '/photos/food3.jpg'
+        '/photos/food3.jpg',
+        '/photos/food2.jpg',
+        '/photos/food4.jpg',
+        '/photos/food6.jpg',
       ]
     }
   ];
@@ -731,19 +759,49 @@ const PortfolioGrid = () => {
             <div css={categoryStyles} id={category.id}>
               <h3 css={categoryTitleStyles}>{category.title}</h3>
               <div css={gridStyles}>
-                {category.images.map((image, imgIdx) => (
-                  <div 
-                    key={imgIdx} 
-                    css={imageContainerStyles}
-                    onClick={() => openLightbox(category.images, imgIdx)}
-                  >
-                    <img 
-                      src={image}
-                      alt={`${category.title} ${imgIdx + 1}`}
-                      css={imageStyles}
-                    />
-                  </div>
-                ))}
+                {category.images.slice(0, 3).map((image, imgIdx) => {
+                  const isLastPreview = imgIdx === 2;
+                  const remainingCount = category.images.length - 3;
+                  
+                  return (
+                    <div 
+                      key={imgIdx} 
+                      css={css`
+                        ${imageContainerStyles}
+                        position: relative;
+                      `}
+                      onClick={() => openLightbox(category.images, imgIdx)}
+                    >
+                      <img 
+                        src={image}
+                        alt={`${category.title} ${imgIdx + 1}`}
+                        css={imageStyles}
+                      />
+                      
+                      {/* Show "+X More" overlay on 3rd image if there are more photos */}
+                      {isLastPreview && remainingCount > 0 && (
+                        <div css={css`
+                          position: absolute;
+                          inset: 0;
+                          background: rgba(0, 0, 0, 0.7);
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          color: white;
+                          font-size: 1.5rem;
+                          font-weight: bold;
+                          pointer-events: none;
+                          
+                          @media (min-width: 768px) {
+                            font-size: 2rem;
+                          }
+                        `}>
+                          + View More
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </FadeIn>
