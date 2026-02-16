@@ -567,10 +567,8 @@ const PortfolioGrid = () => {
         '/photos/cycle6.jpg',
         '/photos/cycle8.jpg',
         '/photos/cycle10.jpg',
-        '/photos/cycle11.jpg',
         '/photos/cycle12.jpg',
-        '/photos/cycle13.jpg',
-        '/photos/cycle14.jpg',
+        '/photos/cycle13.jpg'
       ]
     },
     {
@@ -707,26 +705,49 @@ const PortfolioGrid = () => {
   `;
 
   const gridStyles = css`
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
     gap: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-bottom: 1rem;
 
-    @media (min-width: 640px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
     }
 
     @media (min-width: 768px) {
-      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
   `;
 
   const imageContainerStyles = css`
+    flex: 0 0 calc(33.333% - 0.5rem);
     aspect-ratio: 4/5;
     overflow: hidden;
     cursor: pointer;
     position: relative;
+    scroll-snap-align: start;
+
+    @media (min-width: 768px) {
+      flex: 0 0 calc(33.333% - 1rem);
+    }
 
     &:hover::after {
       content: '';
@@ -759,49 +780,19 @@ const PortfolioGrid = () => {
             <div css={categoryStyles} id={category.id}>
               <h3 css={categoryTitleStyles}>{category.title}</h3>
               <div css={gridStyles}>
-                {category.images.slice(0, 3).map((image, imgIdx) => {
-                  const isLastPreview = imgIdx === 2;
-                  const remainingCount = category.images.length - 3;
-                  
-                  return (
-                    <div 
-                      key={imgIdx} 
-                      css={css`
-                        ${imageContainerStyles}
-                        position: relative;
-                      `}
-                      onClick={() => openLightbox(category.images, imgIdx)}
-                    >
-                      <img 
-                        src={image}
-                        alt={`${category.title} ${imgIdx + 1}`}
-                        css={imageStyles}
-                      />
-                      
-                      {/* Show "+X More" overlay on 3rd image if there are more photos */}
-                      {isLastPreview && remainingCount > 0 && (
-                        <div css={css`
-                          position: absolute;
-                          inset: 0;
-                          background: rgba(0, 0, 0, 0.7);
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          color: white;
-                          font-size: 1.5rem;
-                          font-weight: bold;
-                          pointer-events: none;
-                          
-                          @media (min-width: 768px) {
-                            font-size: 2rem;
-                          }
-                        `}>
-                          + View More
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                {category.images.map((image, imgIdx) => (
+                  <div 
+                    key={imgIdx} 
+                    css={imageContainerStyles}
+                    onClick={() => openLightbox(category.images, imgIdx)}
+                  >
+                    <img 
+                      src={image}
+                      alt={`${category.title} ${imgIdx + 1}`}
+                      css={imageStyles}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </FadeIn>
@@ -1237,7 +1228,7 @@ const Footer = () => {
             <span css={logoStyles}>JAMES LAWRENCE</span>
           </div>
           <p css={copyrightStyles}>
-            © 2026 James Photography Co. All rights reserved. Probably.
+            2026 James Photography Co.
           </p>
         </div>
       </div>
