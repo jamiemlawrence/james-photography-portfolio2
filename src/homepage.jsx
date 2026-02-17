@@ -706,16 +706,18 @@ const PortfolioGrid = () => {
 
   const gridStyles = css`
     display: flex;
-    gap: 0.75rem;
+    gap: 0.5rem;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    scrollbar-color: #B91C1C #f1f1f1;  /* Red thumb, light gray track */
     padding-bottom: 1rem;
 
+    /* Custom scrollbar for Chrome/Safari */
     &::-webkit-scrollbar {
-      height: 8px;
+      height: 10px;
     }
 
     &::-webkit-scrollbar-track {
@@ -724,12 +726,12 @@ const PortfolioGrid = () => {
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #888;
+      background: #B91C1C;  /* Your red brand color */
       border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: #555;
+      background: #991b1b;  /* Darker red on hover */
     }
 
     @media (min-width: 768px) {
@@ -738,12 +740,16 @@ const PortfolioGrid = () => {
   `;
 
   const imageContainerStyles = css`
-    flex: 0 0 calc(33.333% - 0.5rem);
+    flex: 0 0 calc(33.333% - 0.35rem);  /* Slightly bigger on mobile */
     aspect-ratio: 4/5;
     overflow: hidden;
     cursor: pointer;
     position: relative;
     scroll-snap-align: start;
+
+    @media (min-width: 640px) {
+      flex: 0 0 calc(33.333% - 0.7rem);  /* Bigger on larger phones */
+    }
 
     @media (min-width: 768px) {
       flex: 0 0 calc(33.333% - 1rem);
