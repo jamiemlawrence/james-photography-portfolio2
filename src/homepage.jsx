@@ -592,7 +592,8 @@ const PortfolioGrid = () => {
         '/photos/ski2.jpg',
         '/photos/ski4.jpg',
         '/photos/ski5.jpg',
-        '/photos/ski7.jpg'
+        '/photos/ski8.jpg',
+        '/photos/ski9.jpg'
       ]
     },
     {
@@ -706,16 +707,15 @@ const PortfolioGrid = () => {
 
   const gridStyles = css`
     display: flex;
-    gap: 0.5rem;
+    gap: 0.25rem;  /* Smaller gap = bigger images on mobile */
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: #B91C1C #f1f1f1;  /* Red thumb, light gray track */
+    scrollbar-color: #B91C1C #f1f1f1;
     padding-bottom: 1rem;
 
-    /* Custom scrollbar for Chrome/Safari */
     &::-webkit-scrollbar {
       height: 10px;
     }
@@ -726,12 +726,16 @@ const PortfolioGrid = () => {
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #B91C1C;  /* Your red brand color */
+      background: #B91C1C;
       border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: #991b1b;  /* Darker red on hover */
+      background: #991b1b;
+    }
+
+    @media (min-width: 640px) {
+      gap: 0.75rem;
     }
 
     @media (min-width: 768px) {
@@ -740,7 +744,7 @@ const PortfolioGrid = () => {
   `;
 
   const imageContainerStyles = css`
-    flex: 0 0 calc(33.333% - 0.35rem);  /* Slightly bigger on mobile */
+    flex: 0 0 calc(50% - 0.125rem);  /* Matches the smaller gap */
     aspect-ratio: 4/5;
     overflow: hidden;
     cursor: pointer;
@@ -748,7 +752,7 @@ const PortfolioGrid = () => {
     scroll-snap-align: start;
 
     @media (min-width: 640px) {
-      flex: 0 0 calc(33.333% - 0.7rem);  /* Bigger on larger phones */
+      flex: 0 0 calc(33.333% - 0.5rem);
     }
 
     @media (min-width: 768px) {
