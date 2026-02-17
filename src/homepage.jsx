@@ -595,7 +595,11 @@ const PortfolioGrid = () => {
       images: [
         '/photos/auto2.jpeg',
         '/photos/auto1.jpeg',
-        '/photos/auto4.jpeg'
+        '/photos/auto4.jpeg',
+        '/photos/auto5.jpg',
+        '/photos/auto6.jpg',
+        '/photos/auto7.jpg',
+        '/photos/auto8.jpg',
       ]
     },
     {
@@ -728,15 +732,15 @@ const PortfolioGrid = () => {
   `;
 
   const scrollIndicatorStyles = css`
-  position: absolute;
-  right: 1rem;
-  bottom: -2.5rem;
-  color: #B91C1C;
-  pointer-events: none;
-  z-index: 10;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  transform-origin: left center;
-`;
+    position: absolute;
+    right: 1rem;
+    bottom: -2.5rem;
+    color: #B91C1C;
+    pointer-events: none;
+    z-index: 10;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform-origin: left center;
+  `;
 
   const gridStyles = css`
     display: flex;
@@ -824,7 +828,7 @@ const PortfolioGrid = () => {
             <div css={categoryStyles} id={category.id}>
               <h3 css={categoryTitleStyles}>{category.title}</h3>
               <div css={gridWrapperStyles}>
-                {/* Scroll Indicator - only shows on mobile and fades after scroll */}
+                {/* Scroll Indicator - fades after scroll */}
                 {scrollIndicators[category.id] !== false && (
                   <div 
                     css={css`
