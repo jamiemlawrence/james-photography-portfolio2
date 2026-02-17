@@ -5,6 +5,8 @@ import { Instagram, Mail, Menu, X } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
 
 // Fade-in animation keyframe
 const fadeIn = keyframes`
@@ -144,19 +146,21 @@ const Navigation = () => {
       <div css={navContainerStyles}>
         <div css={navContentStyles}>
           {/* Left Menu */}
-          <div css={menuStyles}>
-            <a href="#portfolio" css={linkStyles}>Photo</a>
-            <a href="#video" css={linkStyles}>Video</a>
-          </div>
-          
-          {/* Center Logo */}
-          <a href="#home" css={logoStyles}>
-            <h1>JAMES LAWRENCE</h1>
-          </a>
+            <div css={menuStyles}>
+              <Link to="/" css={linkStyles} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</Link>
+              <a href="/#portfolio" css={linkStyles}>Photo</a>
+              <a href="/#video" css={linkStyles}>Video</a>
+              <Link to="/events" css={linkStyles}>Events</Link>
+            </div>
+
+            {/* Center Logo */}
+            <Link to="/" css={logoStyles} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <h1>JAMES LAWRENCE</h1>
+            </Link>
 
           {/* Right Menu */}
           <div css={menuStyles}>
-            <a href="#contact" css={linkStyles}>Contact</a>
+            <a href="/#contact" css={linkStyles}>Contact</a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -173,9 +177,11 @@ const Navigation = () => {
       {mobileMenuOpen && (
         <div css={mobileMenuStyles}>
           <div css={mobileMenuLinksStyles}>
-            <a href="#portfolio" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</a>
-            <a href="#video" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Video</a>
-            <a href="#contact" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</a>
+            <Link to="/" css={linkStyles} onClick={() => { setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</Link>
+            <a href="/#portfolio" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</a>
+            <a href="/#video" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Video</a>
+            <Link to="/events" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Events</Link>
+            <a href="/#contact" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</a>
           </div>
         </div>
       )}
@@ -1246,8 +1252,71 @@ const Footer = () => {
   );
 };
 
-// Main App
-export default function PhotographyWebsite() {
+// Events Page Component
+const EventsPage = () => {
+  const events = [
+    {
+      id: 'sample-event',
+      name: 'Sample Event',
+      date: 'Coming Soon',
+      location: 'TBD',
+      thumbnail: '/photos/cycle0.jpg',
+      photoCount: 0
+    }
+  ];
+
+  const pageStyles = css`
+    min-height: 100vh;
+    background: white;
+    padding-top: 2rem;
+  `;
+
+  const containerStyles = css`
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+
+    @media (min-width: 768px) {
+      padding: 5rem 1.5rem;
+    }
+  `;
+
+  const headingStyles = css`
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+    padding-top: 5rem;
+
+    @media (min-width: 768px) {
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+    }
+  `;
+
+  const descriptionStyles = css`
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+    font-size: 1.125rem;
+  `;
+
+  return (
+    <div css={pageStyles}>
+      <Navigation />
+      <div css={containerStyles}>
+        <h1 css={headingStyles}>Event Photos</h1>
+        <p css={descriptionStyles}>
+          Event galleries coming soon! Check back later for photos available for purchase.
+        </p>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+// Home Page Component
+const HomePage = () => {
   return (
     <div style={{ minHeight: '100vh', background: 'white', color: 'black' }}>
       <Navigation />
@@ -1258,5 +1327,17 @@ export default function PhotographyWebsite() {
       <Contact />
       <Footer />
     </div>
+  );
+};
+
+// Main App with Router
+export default function PhotographyWebsite() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/events" element={<EventsPage />} />
+      </Routes>
+    </Router>
   );
 }
