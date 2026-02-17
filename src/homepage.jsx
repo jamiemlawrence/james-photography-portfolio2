@@ -1254,16 +1254,16 @@ const Footer = () => {
 
 // Events Page Component
 const EventsPage = () => {
-  const events = [
-    {
-      id: 'sample-event',
-      name: 'Sample Event',
-      date: 'Coming Soon',
-      location: 'TBD',
-      thumbnail: '/photos/cycle0.jpg',
-      photoCount: 0
-    }
-  ];
+  //const events = [
+    //{
+     // id: 'sample-event',
+     // name: 'Sample Event',
+     // date: 'Coming Soon',
+      //location: 'TBD',
+      //thumbnail: '/photos/cycle0.jpg',
+     // photoCount: 0
+   // }
+ // ];
 
   const pageStyles = css`
     min-height: 100vh;
