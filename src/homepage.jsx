@@ -556,18 +556,6 @@ const PortfolioGrid = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [currentCategory, setCurrentCategory] = useState([]);
-  const [scrollIndicators, setScrollIndicators] = useState({});
-
-  const handleScroll = (categoryId, e) => {
-    const scrollLeft = e.target.scrollLeft;
-    if (scrollLeft > 10 && scrollIndicators[categoryId] !== 'hiding') {
-      setScrollIndicators(prev => ({ ...prev, [categoryId]: 'hiding' }));
-      // After animation completes, fully hide it
-      setTimeout(() => {
-        setScrollIndicators(prev => ({ ...prev, [categoryId]: false }));
-      }, 500);
-    }
-  };
 
   const categories = [
     {
@@ -595,11 +583,7 @@ const PortfolioGrid = () => {
       images: [
         '/photos/auto2.jpeg',
         '/photos/auto1.jpeg',
-        '/photos/auto4.jpeg',
-        '/photos/auto5.jpg',
-        '/photos/auto6.jpg',
-        '/photos/auto7.jpg',
-        '/photos/auto8.jpg',
+        '/photos/auto4.jpeg'
       ]
     },
     {
@@ -727,21 +711,6 @@ const PortfolioGrid = () => {
     }
   `;
 
-  const gridWrapperStyles = css`
-    position: relative;
-  `;
-
-  const scrollIndicatorStyles = css`
-    position: absolute;
-    right: 1rem;
-    bottom: -2.5rem;
-    color: #B91C1C;
-    pointer-events: none;
-    z-index: 10;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    transform-origin: left center;
-  `;
-
   const gridStyles = css`
     display: flex;
     gap: 0.25rem;
@@ -827,51 +796,20 @@ const PortfolioGrid = () => {
           <FadeIn key={idx} delay={idx * 0.1}>
             <div css={categoryStyles} id={category.id}>
               <h3 css={categoryTitleStyles}>{category.title}</h3>
-              <div css={gridWrapperStyles}>
-                {/* Scroll Indicator - fades after scroll */}
-                {scrollIndicators[category.id] !== false && (
+              <div css={gridStyles}>
+                {category.images.map((image, imgIdx) => (
                   <div 
-                    css={css`
-                      ${scrollIndicatorStyles}
-                      ${scrollIndicators[category.id] === 'hiding' && css`
-                        transform: scaleX(2) translateX(20px);
-                        opacity: 0;
-                      `}
-                    `}
+                    key={imgIdx} 
+                    css={imageContainerStyles}
+                    onClick={() => openLightbox(category.images, imgIdx)}
                   >
-                    <svg 
-                      width="24" 
-                      height="24" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="15 9 19 12 15 15"></polyline>
-                    </svg>
+                    <img 
+                      src={image}
+                      alt={`${category.title} ${imgIdx + 1}`}
+                      css={imageStyles}
+                    />
                   </div>
-                )}
-                <div 
-                  css={gridStyles}
-                  onScroll={(e) => handleScroll(category.id, e)}
-                >
-                  {category.images.map((image, imgIdx) => (
-                    <div 
-                      key={imgIdx} 
-                      css={imageContainerStyles}
-                      onClick={() => openLightbox(category.images, imgIdx)}
-                    >
-                      <img 
-                        src={image}
-                        alt={`${category.title} ${imgIdx + 1}`}
-                        css={imageStyles}
-                      />
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
             </div>
           </FadeIn>
