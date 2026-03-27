@@ -519,9 +519,7 @@ const Hero = () => {
       <div css={taglineContainerStyles}>
         <div css={taglineInnerStyles}>
           <p css={taglineTextStyles}>
-            I CAPTURE NATURAL MOMENTS THROUGH CLEAN<br />
-            CINEMATIC PHOTOGRAPHY AND VIDEOGRAPHY<br />
-            DOCUMENTING LIFE IN MOTION.
+
           </p>
 
           {/* Brands Banner */}
@@ -1025,13 +1023,10 @@ const AboutMe = () => {
             </div>
             <div>
               <p css={paragraphStyles}>
-                Hi! I'm a passionate photographer and videographer in California. My camera allows me to capture all of life's adventures.
+                Hi! I'm a passionate producer, photographer, and videographer.
               </p>
               <p css={paragraphStyles}>
-                With a vast array of hobbies, I strive to recreate the experiences of the moment through my lens.
-              </p>
-              <p css={paragraphStyles}>
-                I'd love the opportunity to create. Whether it's lifestyle, adventure, products, events, or something new, I'm fully on board :)
+                I'd love the opportunity to create. Whether it's lifestyle, adventure, products, events, or something new, I'm fully on board
               </p>
             </div>
           </div>
@@ -1160,8 +1155,7 @@ const Contact = () => {
         <FadeIn>
           <h2 css={headingStyles}>GET IN TOUCH</h2>
           <p css={descriptionStyles}>
-            Interested in working together? Let's discuss your project and create 
-            something exceptional.
+            Interested in working together? Feel free to reach out, I'd be happy to chat!
           </p>
         </FadeIn>
         <FadeIn delay={0.2}>
