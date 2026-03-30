@@ -146,21 +146,22 @@ const Navigation = () => {
       <div css={navContainerStyles}>
         <div css={navContentStyles}>
           {/* Left Menu */}
-            <div css={menuStyles}>
-              <Link to="/" css={linkStyles} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</Link>
-              <a href="/#portfolio" css={linkStyles}>Photo</a>
-              <a href="/#video" css={linkStyles}>Video</a>
-              <Link to="/events" css={linkStyles}>Events</Link>
-            </div>
+          <div css={menuStyles}>
+            <Link to="/" css={linkStyles}>Home</Link>
+            <Link to="/photos" css={linkStyles}>Photo</Link>
+            <Link to="/video" css={linkStyles}>Video</Link>
+            <Link to="/couchview" css={linkStyles}>CouchView</Link>
+          </div>
 
-            {/* Center Logo */}
-            <Link to="/" css={logoStyles} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <h1>JAMES LAWRENCE</h1>
-            </Link>
+          {/* Center Logo */}
+          <Link to="/" css={logoStyles}>
+            <h1>JAMES LAWRENCE</h1>
+          </Link>
 
           {/* Right Menu */}
           <div css={menuStyles}>
-            <a href="/#contact" css={linkStyles}>Contact</a>
+            <Link to="/events" css={linkStyles}>Events</Link>
+            <Link to="/contact" css={linkStyles}>Contact</Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -177,11 +178,12 @@ const Navigation = () => {
       {mobileMenuOpen && (
         <div css={mobileMenuStyles}>
           <div css={mobileMenuLinksStyles}>
-            <Link to="/" css={linkStyles} onClick={() => { setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</Link>
-            <a href="/#portfolio" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</a>
-            <a href="/#video" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Video</a>
+            <Link to="/" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Home</Link>
+            <Link to="/photos" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</Link>
+            <Link to="/video" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Video</Link>
+            <Link to="/couchview" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>CouchView</Link>
             <Link to="/events" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Events</Link>
-            <a href="/#contact" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</a>
+            <Link to="/contact" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</Link>
           </div>
         </div>
       )}
@@ -195,27 +197,32 @@ const Hero = () => {
     {
       image: '/photos/photo1.jpg',
       title: 'CYCLE',
-      subtitle: 'road & dirt'
+      subtitle: 'road & dirt',
+      link: '/photos#cycle'
     },
     {
       image: '/photos/auto4.jpeg',
       title: 'AUTO',
-      subtitle: 'racing'
+      subtitle: 'racing',
+      link: '/photos#auto'
     },
     {
       image: '/photos/photoski.jpg',
       title: 'SKI',
-      subtitle: 'snow'
+      subtitle: 'snow',
+      link: '/photos#ski'
     },
     {
       image: '/photos/photo3.jpg',
       title: 'LIFESTYLE',
-      subtitle: 'portrait'
+      subtitle: 'portrait',
+      link: '/photos#lifestyle'
     },
     {
       image: '/photos/photofood.jpg',
       title: 'CULINARY',
-      subtitle: 'eats'
+      subtitle: 'eats',
+      link: '/photos#culinary'
     }
   ];
 
@@ -429,27 +436,8 @@ const Hero = () => {
     text-align: center;
   `;
 
-  const taglineTextStyles = css`
-    font-size: 0.875rem;
-    letter-spacing: 0.025em;
-    line-height: 1.625;
-    font-weight: 500;
-
-    @media (min-width: 640px) {
-      font-size: 1rem;
-    }
-
-    @media (min-width: 768px) {
-      font-size: 1.125rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 1.25rem;
-    }
-  `;
-
   return (
-    <section css={sectionStyles} id="home">
+    <section css={sectionStyles}>
       {/* Hero Container */}
       <div css={heroContainerStyles}>
         {/* Main Hero Text - Centered */}
@@ -464,9 +452,9 @@ const Hero = () => {
           {/* Top Row - 3 images */}
           <div css={topRowStyles}>
             {portfolioItems.slice(0, 3).map((item, index) => (
-              <a 
+              <Link 
                 key={index} 
-                href={`#${item.title.toLowerCase().replace(' ', '-')}`}
+                to={item.link}
                 css={css`text-decoration: none; color: inherit;`}
               >
                 <div css={cardStyles}>
@@ -483,16 +471,16 @@ const Hero = () => {
                     <p css={cardSubtitleStyles}>{item.subtitle}</p>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
 
           {/* Bottom Row - 2 images */}
           <div css={bottomRowStyles}>
             {portfolioItems.slice(3, 5).map((item, index) => (
-              <a 
+              <Link 
                 key={index} 
-                href={`#${item.title.toLowerCase().replace(' ', '-')}`}
+                to={item.link}
                 css={css`text-decoration: none; color: inherit;`}
               >
                 <div css={cardStyles}>
@@ -509,28 +497,17 @@ const Hero = () => {
                     <p css={cardSubtitleStyles}>{item.subtitle}</p>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Bottom Tagline */}
+      {/* Bottom Tagline & Brands */}
       <div css={taglineContainerStyles}>
         <div css={taglineInnerStyles}>
-          <p css={taglineTextStyles}>
-
-          </p>
-
           {/* Brands Banner */}
-          <div css={css`
-            margin-top: 2rem;
-
-            @media (min-width: 768px) {
-              display: block;
-              margin-top: 3rem;
-            }
-          `}>
+          <div>
             <img 
               src="/photos/Brands.png"
               alt="Brand Logos"
@@ -548,102 +525,11 @@ const Hero = () => {
   );
 };
 
-// Portfolio Grid Section
-const PortfolioGrid = () => {
-
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [currentCategory, setCurrentCategory] = useState([]);
-
-  const categories = [
-    {
-      title: 'CYCLE',
-      id: 'cycle',
-      images: [
-        '/photos/cycle0.jpg',
-        '/photos/cycle7.jpg',
-        '/photos/cycle9.jpg',
-        '/photos/cycle1.jpg',
-        '/photos/cycle2.jpg',
-        '/photos/cycle3.jpg',
-        '/photos/cycle4.jpg',
-        '/photos/cycle5.jpg',
-        '/photos/cycle6.jpg',
-        '/photos/cycle8.jpg',
-        '/photos/cycle10.jpg',
-        '/photos/cycle12.jpg',
-        '/photos/cycle13.jpg'
-      ]
-    },
-    {
-      title: 'AUTO',
-      id: 'auto',
-      images: [
-        '/photos/auto2.jpeg',
-        '/photos/auto1.jpeg',
-        '/photos/auto4.jpeg',
-        '/photos/auto5.jpg',
-        '/photos/auto6.jpg',
-        '/photos/auto7.jpg',
-        '/photos/auto8.jpg',
-        '/photos/auto9.jpg'
-      ]
-    },
-    {
-      title: 'SKI',
-      id: 'ski',
-      images: [
-        '/photos/ski6.jpg',
-        '/photos/ski3.jpg',
-        '/photos/ski7.jpg',
-        '/photos/photoski.jpg',
-        '/photos/ski1.jpg',
-        '/photos/ski2.jpg',
-        '/photos/ski4.jpg',
-        '/photos/ski5.jpg',
-        '/photos/ski8.jpg',
-        '/photos/ski9.jpg'
-      ]
-    },
-    {
-      title: 'LIFESTYLE',
-      id: 'lifestyle',
-      images: [
-        '/photos/life1.jpg',
-        '/photos/life11.jpg',
-        '/photos/life10.jpg',
-        '/photos/life2.jpg',
-        '/photos/life3.jpg',
-        '/photos/life4.jpg',
-        '/photos/life5.jpg',
-        '/photos/life6.jpg',
-        '/photos/life12.jpg',
-        '/photos/life13.jpg',
-      ]
-    },
-    {
-      title: 'CULINARY',
-      id: 'culinary',
-      images: [
-        '/photos/food1.jpg',
-        '/photos/food5.jpg',
-        '/photos/food3.jpg',
-        '/photos/food2.jpg',
-        '/photos/food4.jpg',
-        '/photos/food6.jpg',
-      ]
-    }
-  ];
-
-  const openLightbox = (images, index) => {
-    setCurrentCategory(images);
-    setLightboxIndex(index);
-    setLightboxOpen(true);
-  };
-
+// About Me Section
+const AboutMe = () => {
   const sectionStyles = css`
     padding: 3rem 1rem;
-    background: #f9fafb;
+    background: white;
 
     @media (min-width: 768px) {
       padding: 5rem 1.5rem;
@@ -651,291 +537,6 @@ const PortfolioGrid = () => {
 
     @media (min-width: 1024px) {
       padding: 8rem 1.5rem;
-    }
-  `;
-
-  const containerStyles = css`
-    max-width: 1280px;
-    margin: 0 auto;
-  `;
-
-  const headingStyles = css`
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    text-align: center;
-    letter-spacing: -0.025em;
-
-    @media (min-width: 768px) {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 3rem;
-      margin-bottom: 5rem;
-    }
-
-    @media (min-width: 1280px) {
-      font-size: 3.75rem;
-    }
-  `;
-
-  const categoryStyles = css`
-    margin-bottom: 3rem;
-    padding-top: 5rem;
-    margin-top: -5rem;
-
-    @media (min-width: 768px) {
-      margin-bottom: 4rem;
-      padding-top: 6rem;
-      margin-top: -6rem;
-    }
-
-    @media (min-width: 1024px) {
-      margin-bottom: 6rem;
-    }
-  `;
-
-  const categoryTitleStyles = css`
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    letter-spacing: 0.025em;
-
-    @media (min-width: 768px) {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 1.875rem;
-      margin-bottom: 2rem;
-    }
-  `;
-
-  const gridStyles = css`
-    display: flex;
-    gap: 0.25rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: #B91C1C #f1f1f1;
-    padding-bottom: 1rem;
-
-    &::-webkit-scrollbar {
-      height: 10px;
-      -webkit-appearance: none;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #B91C1C;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: #991b1b;
-    }
-
-    @media (min-width: 640px) {
-      gap: 0.75rem;
-    }
-
-    @media (min-width: 768px) {
-      gap: 1.5rem;
-    }
-  `;
-
-  const imageContainerStyles = css`
-    flex: 0 0 calc(50% - 0.125rem);
-    aspect-ratio: 4/5;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    scroll-snap-align: start;
-
-    @media (min-width: 640px) {
-      flex: 0 0 calc(33.333% - 0.5rem);
-    }
-
-    @media (min-width: 768px) {
-      flex: 0 0 calc(33.333% - 1rem);
-    }
-
-    &:hover::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.3);
-      transition: opacity 0.3s;
-    }
-  `;
-
-  const imageStyles = css`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.7s;
-
-    &:hover {
-      transform: scale(1.05);
-    }
-  `;
-
-  return (
-    <section css={sectionStyles} id="portfolio">
-      <div css={containerStyles}>
-        <FadeIn>
-          <h2 css={headingStyles}>PHOTO</h2>
-        </FadeIn>
-        {categories.map((category, idx) => (
-          <FadeIn key={idx} delay={idx * 0.1}>
-            <div css={categoryStyles} id={category.id}>
-              <h3 css={categoryTitleStyles}>{category.title}</h3>
-              <div css={gridStyles}>
-                {category.images.map((image, imgIdx) => (
-                  <div 
-                    key={imgIdx} 
-                    css={imageContainerStyles}
-                    onClick={() => openLightbox(category.images, imgIdx)}
-                  >
-                    <img 
-                      src={image}
-                      alt={`${category.title} ${imgIdx + 1}`}
-                      css={imageStyles}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </FadeIn>
-        ))}
-      </div>
-      <Lightbox
-        open={lightboxOpen}
-        close={() => setLightboxOpen(false)}
-        index={lightboxIndex}
-        slides={currentCategory.map(src => ({ src }))}
-        styles={{
-          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
-        }}
-        carousel={{ finite: false }}
-        controller={{ closeOnBackdropClick: true }}
-      />
-    </section>
-  );
-};
-
-// Video Section
-const Video = () => {
-  const sectionStyles = css`
-    padding: 1rem 1rem 3rem;
-    padding-top: 6rem;
-    margin-top: -5rem;
-    background: #f9fafb;
-
-    @media (min-width: 768px) {
-      padding: 1rem 1.5rem 5rem;
-      padding-top: 9rem;
-      margin-top: -6rem;
-    }
-
-    @media (min-width: 1024px) {
-      padding: 1rem 1.5rem 8rem;
-      padding-top: 10rem;
-    }
-  `;
-
-  const containerStyles = css`
-    max-width: 1280px;
-    margin: 0 auto;
-  `;
-
-  const headingStyles = css`
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    text-align: center;
-    letter-spacing: -0.025em;
-
-    @media (min-width: 768px) {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 3rem;
-      margin-bottom: 5rem;
-    }
-
-    @media (min-width: 1280px) {
-      font-size: 3.75rem;
-    }
-  `;
-
-  const videoContainerStyles = css`
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio - full width on mobile */
-    height: 0;
-    overflow: hidden;
-    max-width: 100%;
-    margin: 0 auto;
-    background: #000;
-
-    @media (min-width: 768px) {
-      padding-bottom: 42.1875%; /* 16:9 at 75% width */
-      max-width: 75%;
-    }
-
-    iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-  `;
-
-  return (
-    <section css={sectionStyles} id="video">
-      <div css={containerStyles}>
-        <FadeIn>
-          <h2 css={headingStyles}>VIDEO</h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <div css={videoContainerStyles}>
-            <iframe 
-              src="https://player.vimeo.com/video/1051705822?badge=0&autopause=0&player_id=0&app_id=58479"
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-              title="Showreel"
-            />
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  );
-};
-
-// About Me Section
-const AboutMe = () => {
-  const sectionStyles = css`
-    padding: 2rem 1rem 3rem;
-    background: white;
-
-    @media (min-width: 768px) {
-      padding: 2rem 1.5rem 5rem;
-    }
-
-    @media (min-width: 1024px) {
-      padding: 2rem 1.5rem 8rem;
     }
   `;
 
@@ -1007,7 +608,7 @@ const AboutMe = () => {
   `;
 
   return (
-    <section css={sectionStyles} id="about-me">
+    <section css={sectionStyles}>
       <div css={containerStyles}>
         <FadeIn>
           <h2 css={headingStyles}>ABOUT ME</h2>
@@ -1150,7 +751,7 @@ const Contact = () => {
   `;
 
   return (
-    <section css={sectionStyles} id="contact">
+    <section css={sectionStyles}>
       <div css={containerStyles}>
         <FadeIn>
           <h2 css={headingStyles}>GET IN TOUCH</h2>
@@ -1252,32 +853,484 @@ const Footer = () => {
   );
 };
 
-// Events Page Component
-const EventsPage = () => {
-  //const events = [
-    //{
-     // id: 'sample-event',
-     // name: 'Sample Event',
-     // date: 'Coming Soon',
-      //location: 'TBD',
-      //thumbnail: '/photos/cycle0.jpg',
-     // photoCount: 0
-   // }
- // ];
+// Portfolio Grid Component (reusable)
+const PortfolioGrid = () => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentCategory, setCurrentCategory] = useState([]);
 
+  const categories = [
+    {
+      title: 'CYCLE',
+      id: 'cycle',
+      images: [
+        '/photos/cycle0.jpg',
+        '/photos/cycle7.jpg',
+        '/photos/cycle9.jpg',
+        '/photos/cycle1.jpg',
+        '/photos/cycle2.jpg',
+        '/photos/cycle3.jpg',
+        '/photos/cycle4.jpg',
+        '/photos/cycle5.jpg',
+        '/photos/cycle6.jpg',
+        '/photos/cycle8.jpg',
+        '/photos/cycle10.jpg',
+        '/photos/cycle12.jpg',
+        '/photos/cycle13.jpg'
+      ]
+    },
+    {
+      title: 'AUTO',
+      id: 'auto',
+      images: [
+        '/photos/auto2.jpeg',
+        '/photos/auto1.jpeg',
+        '/photos/auto4.jpeg',
+        '/photos/auto5.jpg',
+        '/photos/auto6.jpg',
+        '/photos/auto7.jpg',
+        '/photos/auto8.jpg',
+        '/photos/auto9.jpg'
+      ]
+    },
+    {
+      title: 'SKI',
+      id: 'ski',
+      images: [
+        '/photos/ski6.jpg',
+        '/photos/ski3.jpg',
+        '/photos/ski7.jpg',
+        '/photos/photoski.jpg',
+        '/photos/ski1.jpg',
+        '/photos/ski2.jpg',
+        '/photos/ski4.jpg',
+        '/photos/ski5.jpg',
+        '/photos/ski8.jpg',
+        '/photos/ski9.jpg'
+      ]
+    },
+    {
+      title: 'LIFESTYLE',
+      id: 'lifestyle',
+      images: [
+        '/photos/life1.jpg',
+        '/photos/life11.jpg',
+        '/photos/life10.jpg',
+        '/photos/life2.jpg',
+        '/photos/life3.jpg',
+        '/photos/life4.jpg',
+        '/photos/life5.jpg',
+        '/photos/life6.jpg',
+        '/photos/life12.jpg',
+        '/photos/life13.jpg',
+      ]
+    },
+    {
+      title: 'CULINARY',
+      id: 'culinary',
+      images: [
+        '/photos/food1.jpg',
+        '/photos/food5.jpg',
+        '/photos/food3.jpg',
+        '/photos/food2.jpg',
+        '/photos/food4.jpg',
+        '/photos/food6.jpg',
+      ]
+    }
+  ];
+
+  const openLightbox = (images, index) => {
+    setCurrentCategory(images);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const sectionStyles = css`
+    padding: 3rem 1rem;
+    padding-top: 6rem;
+    background: #f9fafb;
+    min-height: 100vh;
+
+    @media (min-width: 768px) {
+      padding: 5rem 1.5rem;
+      padding-top: 8rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 8rem 1.5rem;
+      padding-top: 10rem;
+    }
+  `;
+
+  const containerStyles = css`
+    max-width: 1280px;
+    margin: 0 auto;
+  `;
+
+  const headingStyles = css`
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: -0.025em;
+
+    @media (min-width: 768px) {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 3rem;
+      margin-bottom: 5rem;
+    }
+
+    @media (min-width: 1280px) {
+      font-size: 3.75rem;
+    }
+  `;
+
+  const categoryStyles = css`
+    margin-bottom: 3rem;
+    padding-top: 5rem;
+    margin-top: -5rem;
+
+    @media (min-width: 768px) {
+      margin-bottom: 4rem;
+      padding-top: 6rem;
+      margin-top: -6rem;
+    }
+
+    @media (min-width: 1024px) {
+      margin-bottom: 6rem;
+    }
+  `;
+
+  const categoryTitleStyles = css`
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    letter-spacing: 0.025em;
+
+    @media (min-width: 768px) {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 1.875rem;
+      margin-bottom: 2rem;
+    }
+  `;
+
+  const gridStyles = css`
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #B91C1C #f1f1f1;
+    padding-bottom: 1rem;
+
+    &::-webkit-scrollbar {
+      height: 10px;
+      -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #B91C1C;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #991b1b;
+    }
+
+    @media (min-width: 640px) {
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      gap: 1.5rem;
+    }
+  `;
+
+  const imageContainerStyles = css`
+    flex: 0 0 calc(50% - 0.125rem);
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    scroll-snap-align: start;
+
+    @media (min-width: 640px) {
+      flex: 0 0 calc(33.333% - 0.5rem);
+    }
+
+    @media (min-width: 768px) {
+      flex: 0 0 calc(33.333% - 1rem);
+    }
+
+    &:hover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      transition: opacity 0.3s;
+    }
+  `;
+
+  const imageStyles = css`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  `;
+
+  return (
+    <section css={sectionStyles}>
+      <div css={containerStyles}>
+        <FadeIn>
+          <h2 css={headingStyles}>PHOTO</h2>
+        </FadeIn>
+        {categories.map((category, idx) => (
+          <FadeIn key={idx} delay={idx * 0.1}>
+            <div css={categoryStyles} id={category.id}>
+              <h3 css={categoryTitleStyles}>{category.title}</h3>
+              <div css={gridStyles}>
+                {category.images.map((image, imgIdx) => (
+                  <div 
+                    key={imgIdx} 
+                    css={imageContainerStyles}
+                    onClick={() => openLightbox(category.images, imgIdx)}
+                  >
+                    <img 
+                      src={image}
+                      alt={`${category.title} ${imgIdx + 1}`}
+                      css={imageStyles}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+        ))}
+      </div>
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={currentCategory.map(src => ({ src }))}
+        styles={{
+          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
+        }}
+        carousel={{ finite: false }}
+        controller={{ closeOnBackdropClick: true }}
+      />
+    </section>
+  );
+};
+
+// HOME PAGE
+const HomePage = () => {
+  return (
+    <div style={{ minHeight: '100vh', background: 'white' }}>
+      <Navigation />
+      <Hero />
+      <AboutMe />
+      <Footer />
+    </div>
+  );
+};
+
+// PHOTOS PAGE
+const PhotosPage = () => {
+  return (
+    <div style={{ minHeight: '100vh', background: '#f9fafb' }}>
+      <Navigation />
+      <PortfolioGrid />
+      <Footer />
+    </div>
+  );
+};
+
+// VIDEO PAGE
+const VideoPage = () => {
+  const sectionStyles = css`
+    padding: 3rem 1rem;
+    padding-top: 6rem;
+    background: #f9fafb;
+    min-height: 100vh;
+
+    @media (min-width: 768px) {
+      padding: 5rem 1.5rem;
+      padding-top: 8rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 8rem 1.5rem;
+      padding-top: 10rem;
+    }
+  `;
+
+  const containerStyles = css`
+    max-width: 1280px;
+    margin: 0 auto;
+  `;
+
+  const headingStyles = css`
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: -0.025em;
+
+    @media (min-width: 768px) {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 3rem;
+      margin-bottom: 5rem;
+    }
+
+    @media (min-width: 1280px) {
+      font-size: 3.75rem;
+    }
+  `;
+
+  const videoContainerStyles = css`
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #000;
+
+    @media (min-width: 768px) {
+      padding-bottom: 42.1875%;
+      max-width: 75%;
+    }
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  `;
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#f9fafb' }}>
+      <Navigation />
+      <section css={sectionStyles}>
+        <div css={containerStyles}>
+          <FadeIn>
+            <h2 css={headingStyles}>VIDEO</h2>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <div css={videoContainerStyles}>
+              <iframe 
+                src="https://player.vimeo.com/video/1051705822?badge=0&autopause=0&player_id=0&app_id=58479"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                title="Showreel"
+              />
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
+};
+
+// COUCHVIEW PAGE
+const CouchViewPage = () => {
   const pageStyles = css`
     min-height: 100vh;
-    background: white;
-    padding-top: 2rem;
+    background: #f9fafb;
   `;
 
   const containerStyles = css`
     max-width: 1280px;
     margin: 0 auto;
     padding: 3rem 1rem;
+    padding-top: 8rem;
 
     @media (min-width: 768px) {
       padding: 5rem 1.5rem;
+      padding-top: 10rem;
+    }
+  `;
+
+  const headingStyles = css`
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+    }
+  `;
+
+  const descriptionStyles = css`
+    text-align: center;
+    color: #374151;
+    margin-bottom: 3rem;
+    font-size: 1.125rem;
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+  `;
+
+  return (
+    <div css={pageStyles}>
+      <Navigation />
+      <div css={containerStyles}>
+        <FadeIn>
+          <h1 css={headingStyles}>CouchView</h1>
+          <p css={descriptionStyles}>
+            Showcasing my work on the Couch
+          </p>
+        </FadeIn>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+// EVENTS PAGE
+const EventsPage = () => {
+  const pageStyles = css`
+    min-height: 100vh;
+    background: #f9fafb;
+  `;
+
+  const containerStyles = css`
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    padding-top: 8rem;
+
+    @media (min-width: 768px) {
+      padding: 5rem 1.5rem;
+      padding-top: 10rem;
     }
   `;
 
@@ -1286,7 +1339,6 @@ const EventsPage = () => {
     font-weight: bold;
     margin-bottom: 1rem;
     text-align: center;
-    padding-top: 5rem;
 
     @media (min-width: 768px) {
       font-size: 3.5rem;
@@ -1305,25 +1357,28 @@ const EventsPage = () => {
     <div css={pageStyles}>
       <Navigation />
       <div css={containerStyles}>
-        <h1 css={headingStyles}>Event Photos</h1>
-        <p css={descriptionStyles}>
-          Event galleries coming soon! Check back later for photos available for purchase.
-        </p>
+        <FadeIn>
+          <h1 css={headingStyles}>Event Photos</h1>
+          <p css={descriptionStyles}>
+            Event galleries coming soon! Check back later for photos available for purchase.
+          </p>
+        </FadeIn>
       </div>
       <Footer />
     </div>
   );
 };
 
-// Home Page Component
-const HomePage = () => {
+// CONTACT PAGE
+const ContactPage = () => {
+  const pageStyles = css`
+    min-height: 100vh;
+    background: white;
+  `;
+
   return (
-    <div style={{ minHeight: '100vh', background: 'white', color: 'black' }}>
+    <div css={pageStyles}>
       <Navigation />
-      <Hero />
-      <PortfolioGrid />
-      <Video />
-      <AboutMe />
       <Contact />
       <Footer />
     </div>
@@ -1336,7 +1391,11 @@ export default function PhotographyWebsite() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/photos" element={<PhotosPage />} />
+        <Route path="/video" element={<VideoPage />} />
+        <Route path="/couchview" element={<CouchViewPage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
   );
