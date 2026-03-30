@@ -1273,56 +1273,312 @@ const VideoPage = () => {
 
 // COUCHVIEW PAGE
 const CouchViewPage = () => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // Organize photos by category
+  const sections = [
+    {
+      title: 'Apparel',
+      description: 'Capturing the essence of CouchView\'s streetwear collection through dynamic product photography.',
+      images: [
+        '/photos/Couchview/DSC03065.jpg',
+        '/photos/Couchview/DSC06254.jpg',
+        '/photos/Couchview/DSC06410-2.jpg'
+      ],
+      textPosition: 'left' // text on left, image on right
+    },
+    {
+      title: 'Lifestyle',
+      description: 'Authentic moments that bring the brand to life - from lookbooks to lifestyle shoots.',
+      images: [
+        '/photos/Couchview/DSC03399.jpg',
+        '/photos/Couchview/DSC07097.jpg',
+        '/photos/Couchview/DSC06263.jpg'
+      ],
+      textPosition: 'right' // text on right, image on left
+    },
+    {
+      title: 'Events',
+      description: 'Documenting CouchView\'s presence - pop-ups, releases, and community moments.',
+      images: [
+        '/photos/Couchview/DSC04321.jpg',
+        '/photos/Couchview/DSC04373.jpg',
+        '/photos/Couchview/DSC04280.jpg'
+      ],
+      textPosition: 'left'
+    },
+    {
+      title: 'Campaign',
+      description: 'Editorial and campaign work showcasing the brand\'s vision and aesthetic.',
+      images: [
+        '/photos/Couchview/DSC09339.jpg',
+        '/photos/Couchview/DSC09555.jpg',
+        '/photos/Couchview/DSC06149.jpg'
+      ],
+      textPosition: 'right'
+    }
+  ];
+
+  // Flatten all images for lightbox
+  const allImages = sections.flatMap(section => section.images);
+
+  const openLightbox = (sectionImages, imageIndex) => {
+    // Find the global index of this image
+    const globalIndex = allImages.indexOf(sectionImages[imageIndex]);
+    setLightboxIndex(globalIndex);
+    setLightboxOpen(true);
+  };
+
   const pageStyles = css`
     min-height: 100vh;
+    background: white;
+  `;
+
+  const heroStyles = css`
+    padding: 8rem 1rem 4rem;
+    text-align: center;
     background: #f9fafb;
-  `;
-
-  const containerStyles = css`
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 3rem 1rem;
-    padding-top: 8rem;
 
     @media (min-width: 768px) {
-      padding: 5rem 1.5rem;
-      padding-top: 10rem;
+      padding: 10rem 1.5rem 6rem;
     }
   `;
 
-  const headingStyles = css`
-    font-size: 2.5rem;
+  const heroTitleStyles = css`
+    font-size: 3rem;
     font-weight: bold;
-    margin-bottom: 1.5rem;
-    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
 
     @media (min-width: 768px) {
-      font-size: 3.5rem;
-      margin-bottom: 2rem;
+      font-size: 4rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 5rem;
     }
   `;
 
-  const descriptionStyles = css`
-    text-align: center;
-    color: #374151;
-    margin-bottom: 3rem;
+  const heroSubtitleStyles = css`
     font-size: 1.125rem;
-    max-width: 768px;
-    margin-left: auto;
-    margin-right: auto;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+
+    @media (min-width: 768px) {
+      font-size: 1.25rem;
+    }
+  `;
+
+  const sectionStyles = css`
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+  align-items: center;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    min-height: 70vh;
+  }
+`;
+
+const textContainerStyles = (isLeft) => css`
+  flex: 1;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background: ${isLeft ? '#f9fafb' : 'white'};
+
+  @media (min-width: 768px) {
+    padding: 3rem 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 4rem 3rem;
+    order: ${isLeft ? '1' : '2'};
+  }
+`;
+
+const imageContainerStyles = (isLeft) => css`
+  flex: 1;
+  position: relative;
+  min-height: 300px;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    min-height: 400px;
+  }
+
+  @media (min-width: 1024px) {
+    min-height: 70vh;
+    order: ${isLeft ? '2' : '1'};
+  }
+`;
+
+const titleStyles = css`
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.025em;
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2.5rem;
+  }
+`;
+
+const descriptionStyles = css`
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1.125rem;
+  }
+`;
+
+const imageGridStyles = css`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem;
+
+  @media (min-width: 768px) {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+`;
+
+const mainImageStyles = css`
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+
+  @media (min-width: 768px) {
+    min-height: 250px;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+`;
+
+const smallImageStyles = css`
+  width: 100%;
+  height: 100%;
+  min-height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+
+  @media (min-width: 768px) {
+    min-height: 150px;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+  const viewMoreStyles = css`
+    font-size: 0.875rem;
+    color: #B91C1C;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #991b1b;
+    }
   `;
 
   return (
     <div css={pageStyles}>
       <Navigation />
-      <div css={containerStyles}>
+      
+      {/* Hero Section */}
+      <div css={heroStyles}>
         <FadeIn>
-          <h1 css={headingStyles}>CouchView</h1>
-          <p css={descriptionStyles}>
-            Showcasing my work on the Couch
+          <h1 css={heroTitleStyles}>CouchView</h1>
+          <p css={heroSubtitleStyles}>
+            Visual storytelling for life on the couch.
           </p>
         </FadeIn>
       </div>
+
+      {/* Split Screen Sections */}
+      {sections.map((section, idx) => (
+        <FadeIn key={idx} delay={idx * 0.1}>
+          <section css={sectionStyles}>
+            {/* Text Content */}
+            <div css={textContainerStyles(section.textPosition === 'left')}>
+              <h2 css={titleStyles}>{section.title}</h2>
+              <p css={descriptionStyles}>{section.description}</p>
+              <span 
+                css={viewMoreStyles}
+                onClick={() => openLightbox(section.images, 0)}
+              >
+                VIEW GALLERY →
+              </span>
+            </div>
+
+            {/* Image Grid */}
+            <div css={imageContainerStyles(section.textPosition === 'left')}>
+              <div css={imageGridStyles}>
+                {/* Main large image */}
+                <img
+                  src={section.images[0]}
+                  alt={`${section.title} 1`}
+                  css={mainImageStyles}
+                  onClick={() => openLightbox(section.images, 0)}
+                />
+                {/* Two smaller images */}
+                {section.images.slice(1, 3).map((image, imgIdx) => (
+                  <img
+                    key={imgIdx}
+                    src={image}
+                    alt={`${section.title} ${imgIdx + 2}`}
+                    css={smallImageStyles}
+                    onClick={() => openLightbox(section.images, imgIdx + 1)}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        </FadeIn>
+      ))}
+
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={allImages.map(src => ({ src }))}
+        styles={{
+          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
+        }}
+        carousel={{ finite: false }}
+        controller={{ closeOnBackdropClick: true }}
+      />
+
       <Footer />
     </div>
   );
