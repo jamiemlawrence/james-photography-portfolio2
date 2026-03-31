@@ -201,16 +201,16 @@ const Hero = () => {
       link: '/photos#cycle'
     },
     {
-      image: '/photos/auto4.jpeg',
-      title: 'AUTO',
-      subtitle: 'racing',
-      link: '/photos#auto'
-    },
-    {
       image: '/photos/photoski.jpg',
       title: 'SKI',
       subtitle: 'snow',
       link: '/photos#ski'
+    },
+    {
+      image: '/photos/auto4.jpeg',
+      title: 'AUTO',
+      subtitle: 'racing',
+      link: '/photos#auto'
     },
     {
       image: '/photos/photo3.jpg',
@@ -893,6 +893,26 @@ const PortfolioGrid = () => {
       ]
     },
     {
+      title: 'SKI',
+      id: 'ski',
+      images: [
+        '/photos/ski6.jpg',
+        '/photos/ski3.jpg',
+        '/photos/ski7.jpg',
+        '/photos/ski15.jpg',
+        '/photos/photoski.jpg',
+        '/photos/ski1.jpg',
+        '/photos/ski11.jpg',
+        '/photos/ski2.jpg',
+        '/photos/ski20.jpg',
+        '/photos/ski4.jpg',
+        '/photos/ski12.jpg',
+        '/photos/ski5.jpg',
+        '/photos/ski8.jpg',
+        '/photos/ski9.jpg'
+      ]
+    },
+    {
       title: 'AUTO',
       id: 'auto',
       images: [
@@ -904,22 +924,6 @@ const PortfolioGrid = () => {
         '/photos/auto7.jpg',
         '/photos/auto8.jpg',
         '/photos/auto9.jpg'
-      ]
-    },
-    {
-      title: 'SKI',
-      id: 'ski',
-      images: [
-        '/photos/ski6.jpg',
-        '/photos/ski3.jpg',
-        '/photos/ski7.jpg',
-        '/photos/photoski.jpg',
-        '/photos/ski1.jpg',
-        '/photos/ski2.jpg',
-        '/photos/ski4.jpg',
-        '/photos/ski5.jpg',
-        '/photos/ski8.jpg',
-        '/photos/ski9.jpg'
       ]
     },
     {
