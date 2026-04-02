@@ -617,7 +617,7 @@ const AboutMe = () => {
           <div css={gridStyles}>
             <div>
               <img 
-                src='/photos/photome.jpg'
+                src='/photos/photoJames.jpg'
                 alt="About Me"
                 css={imageStyles}
               />
