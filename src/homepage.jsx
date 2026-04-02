@@ -1279,73 +1279,70 @@ const VideoPage = () => {
 const CouchViewPage = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentImages, setCurrentImages] = useState([]);
 
   // Organize photos by category
   const sections = [
     {
       title: 'Apparel',
-      description: 'Capturing the essence of CouchView\'s streetwear collection through dynamic product photography.',
+      description: 'Couchview collection outerwear.',
+      thumbnail: '/photos/Couchview/DSC03065.jpg',
       images: [
         '/photos/Couchview/DSC03065.jpg',
         '/photos/Couchview/DSC06254.jpg',
         '/photos/Couchview/DSC06410-2.jpg'
-      ],
-      textPosition: 'left' // text on left, image on right
+      ]
     },
     {
       title: 'Lifestyle',
-      description: 'Authentic moments that bring the brand to life - from lookbooks to lifestyle shoots.',
+      description: 'Moments around the brand.',
+      thumbnail: '/photos/Couchview/DSC03399.jpg',
       images: [
         '/photos/Couchview/DSC03399.jpg',
         '/photos/Couchview/DSC07097.jpg',
         '/photos/Couchview/DSC06263.jpg'
-      ],
-      textPosition: 'right' // text on right, image on left
+      ]
     },
     {
       title: 'Events',
-      description: 'Documenting CouchView\'s presence - pop-ups, releases, and community moments.',
+      description: 'Everything from trivia night to couch on cobbles.',
+      thumbnail: '/photos/Couchview/DSC04321.jpg',
       images: [
         '/photos/Couchview/DSC04321.jpg',
         '/photos/Couchview/DSC04373.jpg',
-        '/photos/Couchview/DSC04280.jpg'
-      ],
-      textPosition: 'left'
+        '/photos/Couchview/DSC00041.jpg'
+      ]
     },
     {
       title: 'Campaign',
-      description: 'Editorial and campaign work showcasing the brand\'s vision and aesthetic.',
+      description: 'Showcasing more off the couch.',
+      thumbnail: '/photos/Couchview/DSC09339.jpg',
       images: [
         '/photos/Couchview/DSC09339.jpg',
         '/photos/Couchview/DSC09555.jpg',
-        '/photos/Couchview/DSC06149.jpg'
-      ],
-      textPosition: 'right'
+        '/photos/Couchview/DSC03952.jpg'
+      ]
     }
   ];
 
-  // Flatten all images for lightbox
-  const allImages = sections.flatMap(section => section.images);
-
-  const openLightbox = (sectionImages, imageIndex) => {
-    // Find the global index of this image
-    const globalIndex = allImages.indexOf(sectionImages[imageIndex]);
-    setLightboxIndex(globalIndex);
+  const openGallery = (images, index = 0) => {
+    setCurrentImages(images);
+    setLightboxIndex(index);
     setLightboxOpen(true);
   };
 
   const pageStyles = css`
     min-height: 100vh;
-    background: white;
+    background: #f9fafb;
   `;
 
   const heroStyles = css`
-    padding: 8rem 1rem 4rem;
+    padding: 8rem 1rem 3rem;
     text-align: center;
-    background: #f9fafb;
+    background: white;
 
     @media (min-width: 768px) {
-      padding: 10rem 1.5rem 6rem;
+      padding: 10rem 1.5rem 4rem;
     }
   `;
 
@@ -1375,142 +1372,113 @@ const CouchViewPage = () => {
     }
   `;
 
-  const sectionStyles = css`
-  display: flex;
-  flex-direction: column;
-  min-height: 60vh;
-  align-items: center;
+  const containerStyles = css`
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
 
-  @media (min-width: 1024px) {
-    flex-direction: row;
-    min-height: 70vh;
-  }
-`;
+    @media (min-width: 768px) {
+      padding: 4rem 1.5rem;
+    }
 
-const textContainerStyles = (isLeft) => css`
-  flex: 1;
-  padding: 2rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  background: ${isLeft ? '#f9fafb' : 'white'};
+    @media (min-width: 1024px) {
+      padding: 5rem 1.5rem;
+    }
+  `;
 
-  @media (min-width: 768px) {
-    padding: 3rem 2.5rem;
-  }
+  const gridStyles = css`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
 
-  @media (min-width: 1024px) {
-    padding: 4rem 3rem;
-    order: ${isLeft ? '1' : '2'};
-  }
-`;
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
 
-const imageContainerStyles = (isLeft) => css`
-  flex: 1;
-  position: relative;
-  min-height: 300px;
-  width: 100%;
+    @media (min-width: 1024px) {
+      gap: 3rem;
+    }
+  `;
 
-  @media (min-width: 768px) {
-    min-height: 400px;
-  }
-
-  @media (min-width: 1024px) {
-    min-height: 70vh;
-    order: ${isLeft ? '2' : '1'};
-  }
-`;
-
-const titleStyles = css`
-  font-size: 1.75rem;
-  font-weight: bold;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.025em;
-
-  @media (min-width: 768px) {
-    font-size: 2rem;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 2.5rem;
-  }
-`;
-
-const descriptionStyles = css`
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #374151;
-  margin-bottom: 1.5rem;
-
-  @media (min-width: 768px) {
-    font-size: 1rem;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 1.125rem;
-  }
-`;
-
-const imageGridStyles = css`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  height: 100%;
-  width: 100%;
-  padding: 0.5rem;
-
-  @media (min-width: 768px) {
-    gap: 0.75rem;
-    padding: 1rem;
-  }
-`;
-
-const mainImageStyles = css`
-  grid-column: 1 / -1;
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.5s ease;
-
-  @media (min-width: 768px) {
-    min-height: 250px;
-  }
-
-  &:hover {
-    transform: scale(1.02);
-  }
-`;
-
-const smallImageStyles = css`
-  width: 100%;
-  height: 100%;
-  min-height: 100px;
-  object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.5s ease;
-
-  @media (min-width: 768px) {
-    min-height: 150px;
-  }
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
-
-  const viewMoreStyles = css`
-    font-size: 0.875rem;
-    color: #B91C1C;
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+  const cardStyles = css`
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    transition: color 0.3s;
 
     &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+  `;
+
+  const imageContainerStyles = css`
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+
+    @media (min-width: 768px) {
+      height: 350px;
+    }
+
+    @media (min-width: 1024px) {
+      height: 400px;
+    }
+  `;
+
+  const cardImageStyles = css`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+
+    ${cardStyles}:hover & {
+      transform: scale(1.05);
+    }
+  `;
+
+  const cardContentStyles = css`
+    padding: 1.5rem;
+
+    @media (min-width: 768px) {
+      padding: 2rem;
+    }
+  `;
+
+  const cardTitleStyles = css`
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.025em;
+
+    @media (min-width: 768px) {
+      font-size: 1.75rem;
+    }
+  `;
+
+  const cardDescriptionStyles = css`
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #374151;
+    margin-bottom: 1rem;
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
+  `;
+
+  const viewGalleryStyles = css`
+    font-size: 0.875rem;
+    color: #B91C1C;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+
+    ${cardStyles}:hover & {
       color: #991b1b;
     }
   `;
@@ -1524,58 +1492,43 @@ const smallImageStyles = css`
         <FadeIn>
           <h1 css={heroTitleStyles}>CouchView</h1>
           <p css={heroSubtitleStyles}>
-            Visual storytelling for life on the couch.
+            Visual storytelling for a growing streetwear brand - from product to lifestyle.
           </p>
         </FadeIn>
       </div>
 
-      {/* Split Screen Sections */}
-      {sections.map((section, idx) => (
-        <FadeIn key={idx} delay={idx * 0.1}>
-          <section css={sectionStyles}>
-            {/* Text Content */}
-            <div css={textContainerStyles(section.textPosition === 'left')}>
-              <h2 css={titleStyles}>{section.title}</h2>
-              <p css={descriptionStyles}>{section.description}</p>
-              <span 
-                css={viewMoreStyles}
-                onClick={() => openLightbox(section.images, 0)}
+      {/* Card Grid */}
+      <div css={containerStyles}>
+        <div css={gridStyles}>
+          {sections.map((section, idx) => (
+            <FadeIn key={idx} delay={idx * 0.1}>
+              <div 
+                css={cardStyles}
+                onClick={() => openGallery(section.images)}
               >
-                VIEW GALLERY →
-              </span>
-            </div>
-
-            {/* Image Grid */}
-            <div css={imageContainerStyles(section.textPosition === 'left')}>
-              <div css={imageGridStyles}>
-                {/* Main large image */}
-                <img
-                  src={section.images[0]}
-                  alt={`${section.title} 1`}
-                  css={mainImageStyles}
-                  onClick={() => openLightbox(section.images, 0)}
-                />
-                {/* Two smaller images */}
-                {section.images.slice(1, 3).map((image, imgIdx) => (
+                <div css={imageContainerStyles}>
                   <img
-                    key={imgIdx}
-                    src={image}
-                    alt={`${section.title} ${imgIdx + 2}`}
-                    css={smallImageStyles}
-                    onClick={() => openLightbox(section.images, imgIdx + 1)}
+                    src={section.thumbnail}
+                    alt={section.title}
+                    css={cardImageStyles}
                   />
-                ))}
+                </div>
+                <div css={cardContentStyles}>
+                  <h2 css={cardTitleStyles}>{section.title}</h2>
+                  <p css={cardDescriptionStyles}>{section.description}</p>
+                  <span css={viewGalleryStyles}>VIEW GALLERY →</span>
+                </div>
               </div>
-            </div>
-          </section>
-        </FadeIn>
-      ))}
+            </FadeIn>
+          ))}
+        </div>
+      </div>
 
       <Lightbox
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
         index={lightboxIndex}
-        slides={allImages.map(src => ({ src }))}
+        slides={currentImages.map(src => ({ src }))}
         styles={{
           container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
         }}
