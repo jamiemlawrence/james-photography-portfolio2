@@ -964,18 +964,18 @@ const PortfolioGrid = () => {
 
   const sectionStyles = css`
     padding: 3rem 1rem;
-    padding-top: 6rem;
+    padding-top: 5rem;
     background: #f9fafb;
     min-height: 100vh;
 
     @media (min-width: 768px) {
       padding: 5rem 1.5rem;
-      padding-top: 8rem;
+      padding-top: 6rem;
     }
 
     @media (min-width: 1024px) {
       padding: 8rem 1.5rem;
-      padding-top: 10rem;
+      padding-top: 6rem;
     }
   `;
 
@@ -985,26 +985,22 @@ const PortfolioGrid = () => {
   `;
 
   const headingStyles = css`
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: -0.025em;
+
+  @media (min-width: 768px) {
     font-size: 2rem;
-    font-weight: bold;
     margin-bottom: 2rem;
-    text-align: center;
-    letter-spacing: -0.025em;
+  }
 
-    @media (min-width: 768px) {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 3rem;
-      margin-bottom: 5rem;
-    }
-
-    @media (min-width: 1280px) {
-      font-size: 3.75rem;
-    }
-  `;
+  @media (min-width: 1024px) {
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+`;
 
   const categoryStyles = css`
     margin-bottom: 3rem;
@@ -1185,18 +1181,18 @@ const PhotosPage = () => {
 const VideoPage = () => {
   const sectionStyles = css`
     padding: 3rem 1rem;
-    padding-top: 6rem;
+    padding-top: 5rem;
     background: #f9fafb;
     min-height: 100vh;
 
     @media (min-width: 768px) {
       padding: 5rem 1.5rem;
-      padding-top: 8rem;
+      padding-top: 6rem;
     }
 
     @media (min-width: 1024px) {
       padding: 8rem 1.5rem;
-      padding-top: 10rem;
+      padding-top: 6rem;
     }
   `;
 
@@ -1208,18 +1204,18 @@ const VideoPage = () => {
   const headingStyles = css`
     font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     text-align: center;
     letter-spacing: -0.025em;
 
     @media (min-width: 768px) {
       font-size: 2.5rem;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
 
     @media (min-width: 1024px) {
       font-size: 3rem;
-      margin-bottom: 5rem;
+      margin-bottom: 2rem;
     }
 
     @media (min-width: 1280px) {
@@ -1337,12 +1333,12 @@ const CouchViewPage = () => {
   `;
 
   const heroStyles = css`
-    padding: 8rem 1rem 3rem;
+    padding: 6rem 1rem 2rem;
     text-align: center;
     background: white;
 
     @media (min-width: 768px) {
-      padding: 10rem 1.5rem 4rem;
+      padding: 6rem 1.5rem 3rem;
     }
   `;
 
@@ -1365,24 +1361,53 @@ const CouchViewPage = () => {
     font-size: 1.125rem;
     color: #666;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
 
     @media (min-width: 768px) {
       font-size: 1.25rem;
     }
   `;
 
+  const heroLinksStyles = css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1rem;
+
+    @media (min-width: 768px) {
+      font-size: 1.125rem;
+    }
+  `;
+
+  const linkStyles = css`
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &:hover {
+      color: #B91C1C;
+    }
+  `;
+
+  const separatorStyles = css`
+    color: #d1d5db;
+  `;
+
   const containerStyles = css`
     max-width: 1280px;
     margin: 0 auto;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
 
     @media (min-width: 768px) {
-      padding: 4rem 1.5rem;
+      padding: 3rem 1.5rem;
     }
 
     @media (min-width: 1024px) {
-      padding: 5rem 1.5rem;
+      padding: 3rem 1.5rem;
     }
   `;
 
@@ -1492,8 +1517,27 @@ const CouchViewPage = () => {
         <FadeIn>
           <h1 css={heroTitleStyles}>CouchView</h1>
           <p css={heroSubtitleStyles}>
-            Visual storytelling for a growing streetwear brand - from product to lifestyle.
+            Visual storytelling of a fan-first cycling brand.
           </p>
+          <div css={heroLinksStyles}>
+            <a 
+              href="https://couchview.cc/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              css={linkStyles}
+            >
+              couchview.cc
+            </a>
+            <span css={separatorStyles}>•</span>
+            <a 
+              href="https://www.instagram.com/couchview.cc/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              css={linkStyles}
+            >
+              <Instagram size={20} />
+            </a>
+          </div>
         </FadeIn>
       </div>
 
