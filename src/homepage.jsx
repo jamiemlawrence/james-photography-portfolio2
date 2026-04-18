@@ -406,29 +406,29 @@ const cardSubtitleStyles = css`
   }
 `;
 
-  const taglineContainerStyles = css`
-    position: absolute;
-    bottom: 2rem;
-    left: 0;
-    right: 0;
-    text-align: center;
-    padding: 0 1rem;
+ // const taglineContainerStyles = css`
+    //position: absolute;
+   // bottom: 2rem;
+   // left: 0;
+   // right: 0;
+   // text-align: center;
+   // padding: 0 1rem;
 
-    @media (min-width: 768px) {
-      bottom: 3rem;
-    }
-  `;
+   // @media (min-width: 768px) {
+   //   bottom: 3rem;
+   // }
+  //`;
 
-  const brandsStyles = css`
-    margin-top: 2rem;
+  //const brandsStyles = css`
+   // margin-top: 2rem;
 
-    img {
-      max-width: 100%;
-      height: auto;
-      margin: 0 auto;
-      display: block;
-    }
-  `;
+   // img {
+   //   max-width: 100%;
+    //  height: auto;
+   //   margin: 0 auto;
+    //  display: block;
+   // }
+  //`;
 
   return (
     <section css={sectionStyles} id="home">
