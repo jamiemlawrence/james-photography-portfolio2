@@ -1683,6 +1683,38 @@ const EventGalleryPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const photosPerPage = 24; // Nice even number for grid
 
+  // ADD THIS FUNCTION HERE:
+  const handleDownload = async (photo) => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile && navigator.share) {
+      try {
+        // Fetch the image as a blob
+        const response = await fetch(photo.src);
+        const blob = await response.blob();
+        const file = new File([blob], `${photo.title}.jpg`, { type: 'image/jpeg' });
+        
+        // Use native share sheet
+        await navigator.share({
+          files: [file],
+          title: photo.title,
+        });
+      } catch (error) {
+        console.log('Share failed, opening in new tab:', error);
+        // Fallback to opening in new tab
+        window.open(photo.src, '_blank');
+      }
+    } else {
+      // Desktop download
+      const link = document.createElement('a');
+      link.href = photo.src;
+      link.download = photo.title;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   // Event data - in real app this would come from a database
   const eventData = {
     'sea-otter-classic': {
@@ -2029,6 +2061,12 @@ const EventGalleryPage = () => {
         carousel={{ finite: false }}
         controller={{ closeOnBackdropClick: true }}
         plugins={[Download]}
+        download={{
+          download: async ({ slide }) => {
+            const photo = event.photos.find(p => p.src === slide.src);
+            await handleDownload(photo);
+          }
+        }}
       />
 
       <Footer />
