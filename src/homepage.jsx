@@ -4,8 +4,9 @@ import { css, keyframes } from '@emotion/react';
 import { Instagram, Mail, Menu, X } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import Lightbox from "yet-another-react-lightbox";
+import Download from "yet-another-react-lightbox/plugins/download";
 import "yet-another-react-lightbox/styles.css";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 
 
 // Fade-in animation keyframe
@@ -1465,8 +1466,20 @@ const CouchViewPage = () => {
   );
 };
 
+
 // EVENTS PAGE
 const EventsPage = () => {
+  const events = [
+    {
+      id: 'sea-otter-classic',
+      name: 'Sea Otter Classic',
+      date: 'April 2025',
+      location: 'Monterey, CA',
+      thumbnail: '/photos/events/sea-otter/seaotter35.jpg',
+      photoCount: 127
+    }
+  ];
+
   const pageStyles = css`
     min-height: 100vh;
     background: #f9fafb;
@@ -1485,13 +1498,13 @@ const EventsPage = () => {
   `;
 
   const headingStyles = css`
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1rem;
     text-align: center;
 
     @media (min-width: 768px) {
-      font-size: 3.5rem;
+      font-size: 2.5rem;
       margin-bottom: 2rem;
     }
   `;
@@ -1500,7 +1513,112 @@ const EventsPage = () => {
     text-align: center;
     color: #666;
     margin-bottom: 3rem;
-    font-size: 1.125rem;
+    font-size: 1rem;
+
+    @media (min-width: 768px) {
+      font-size: 1.125rem;
+    }
+  `;
+
+  const gridStyles = css`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  `;
+
+  const cardStyles = css`
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(185, 28, 28, 0.3);
+    }
+  `;
+
+  const imageContainerStyles = css`
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    background: #e5e7eb;
+    position: relative;
+
+    @media (min-width: 768px) {
+      height: 400px;
+    }
+  `;
+
+  const cardImageStyles = css`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+
+    ${cardStyles}:hover & {
+      transform: scale(1.05);
+    }
+  `;
+
+  const cardTextOverlayStyles = css`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  `;
+
+  const cardTitleStyles = css`
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+    @media (min-width: 768px) {
+      font-size: 1.75rem;
+    }
+  `;
+
+  const cardInfoStyles = css`
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.25rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+
+    @media (min-width: 768px) {
+      font-size: 0.95rem;
+    }
+  `;
+
+  const photoCountStyles = css`
+    font-size: 0.875rem;
+    color: #B91C1C;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
   `;
 
   return (
@@ -1510,9 +1628,31 @@ const EventsPage = () => {
         <FadeIn>
           <h1 css={headingStyles}>Event Photos</h1>
           <p css={descriptionStyles}>
-            Event galleries coming soon! Check back later for photos available for purchase.
+            Browse and download photos from recent events
           </p>
         </FadeIn>
+
+        <div css={gridStyles}>
+          {events.map((event, idx) => (
+            <FadeIn key={event.id} delay={idx * 0.1}>
+              <Link to={`/events/${event.id}`} css={cardStyles}>
+                <div css={imageContainerStyles}>
+                  <img
+                    src={event.thumbnail}
+                    alt={event.name}
+                    css={cardImageStyles}
+                  />
+                  <div css={cardTextOverlayStyles}>
+                    <h2 css={cardTitleStyles}>{event.name}</h2>
+                    <p css={cardInfoStyles}>{event.date}</p>
+                    <p css={cardInfoStyles}>{event.location}</p>
+                    <span css={photoCountStyles}>{event.photoCount} photos</span>
+                  </div>
+                </div>
+              </Link>
+            </FadeIn>
+          ))}
+        </div>
       </div>
       <Footer />
     </div>
@@ -1535,6 +1675,367 @@ const ContactPage = () => {
   );
 };
 
+// EVENT GALLERY PAGE
+const EventGalleryPage = () => {
+  const { eventId } = useParams();
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const photosPerPage = 24; // Nice even number for grid
+
+  // Event data - in real app this would come from a database
+  const eventData = {
+    'sea-otter-classic': {
+      name: 'Sea Otter Classic',
+      date: 'April 2025',
+      location: 'Monterey, CA',
+      photos: Array.from({ length: 127 }, (_, i) => ({
+        id: `seaotter${String(i + 1).padStart(4, '0')}`,
+        src: `/photos/events/sea-otter/seaotter${i + 1}.jpg`,
+        title: `seaotter${String(i + 1).padStart(4, '0')}`
+      }))
+    }
+  };
+
+  const event = eventData[eventId];
+
+  if (!event) {
+    return (
+      <div>
+        <Navigation />
+        <div css={css`padding: 10rem 1rem; text-align: center;`}>
+          <h1>Event not found</h1>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Calculate pagination
+  const totalPages = Math.ceil(event.photos.length / photosPerPage);
+  const startIndex = (currentPage - 1) * photosPerPage;
+  const endIndex = startIndex + photosPerPage;
+  const currentPhotos = event.photos.slice(startIndex, endIndex);
+
+  // Scroll to top when page changes
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const pageStyles = css`
+    min-height: 100vh;
+    background: #000;
+  `;
+
+  const headerStyles = css`
+    background: #1a1a1a;
+    padding: 6rem 1rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid #333;
+
+    @media (min-width: 768px) {
+      padding: 8rem 1.5rem 3rem;
+    }
+  `;
+
+  const titleStyles = css`
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: white;
+
+    @media (min-width: 768px) {
+      font-size: 2.5rem;
+    }
+  `;
+
+  const subtitleStyles = css`
+    font-size: 1rem;
+    color: #999;
+
+    @media (min-width: 768px) {
+      font-size: 1.125rem;
+    }
+  `;
+
+  const backButtonStyles = css`
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #B91C1C;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #991b1b;
+    }
+  `;
+
+  const gridContainerStyles = css`
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem 0.5rem;
+
+    @media (min-width: 768px) {
+      padding: 3rem 1rem;
+    }
+  `;
+
+  const gridStyles = css`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  `;
+
+  const imageContainerStyles = css`
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: pointer;
+    background: #1a1a1a;
+
+    &:hover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(185, 28, 28, 0.2);
+    }
+  `;
+
+  const imageStyles = css`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+
+    ${imageContainerStyles}:hover & {
+      transform: scale(1.05);
+    }
+  `;
+
+  const imageTitleStyles = css`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    padding: 0.5rem;
+    font-size: 0.65rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    ${imageContainerStyles}:hover & {
+      opacity: 1;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 0.75rem;
+    }
+  `;
+
+  const paginationContainerStyles = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem 1rem 3rem;
+    flex-wrap: wrap;
+
+    @media (min-width: 768px) {
+      gap: 0.75rem;
+      padding: 3rem 1rem 4rem;
+    }
+  `;
+
+  const pageButtonStyles = (isActive) => css`
+    background: ${isActive ? '#B91C1C' : '#333'};
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.3s;
+    min-width: 40px;
+
+    &:hover {
+      background: ${isActive ? '#991b1b' : '#444'};
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (min-width: 768px) {
+      padding: 0.625rem 1rem;
+      font-size: 0.95rem;
+    }
+  `;
+
+  const pageInfoStyles = css`
+    color: #999;
+    font-size: 0.875rem;
+    padding: 0 0.5rem;
+
+    @media (min-width: 768px) {
+      font-size: 0.95rem;
+    }
+  `;
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5; // Show max 5 page numbers at a time
+    
+    if (totalPages <= maxVisible) {
+      // Show all pages if total is small
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first page
+      pages.push(1);
+      
+      // Calculate range around current page
+      let start = Math.max(2, currentPage - 1);
+      let end = Math.min(totalPages - 1, currentPage + 1);
+      
+      // Add ellipsis if needed
+      if (start > 2) pages.push('...');
+      
+      // Add pages around current
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+      
+      // Add ellipsis if needed
+      if (end < totalPages - 1) pages.push('...');
+      
+      // Always show last page
+      pages.push(totalPages);
+    }
+    
+    return pages;
+  };
+
+  return (
+    <div css={pageStyles}>
+      <Navigation />
+      
+      <div css={headerStyles}>
+        <Link to="/events" css={backButtonStyles}>
+          ← Back to Events
+        </Link>
+        <h1 css={titleStyles}>{event.name}</h1>
+        <p css={subtitleStyles}>
+          {event.date} • {event.location} • {event.photos.length} photos
+        </p>
+      </div>
+
+      <div css={gridContainerStyles}>
+        <div css={gridStyles}>
+          {currentPhotos.map((photo, index) => (
+            <div
+              key={photo.id}
+              css={imageContainerStyles}
+              onClick={() => {
+                setLightboxIndex(startIndex + index);
+                setLightboxOpen(true);
+              }}
+            >
+              <img
+                src={photo.src}
+                alt={photo.title}
+                css={imageStyles}
+                loading="lazy"
+              />
+              <div css={imageTitleStyles}>{photo.title}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Pagination */}
+        <div css={paginationContainerStyles}>
+          <button
+            css={pageButtonStyles(false)}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            ← Prev
+          </button>
+
+          {getPageNumbers().map((page, idx) => (
+            page === '...' ? (
+              <span key={`ellipsis-${idx}`} css={pageInfoStyles}>...</span>
+            ) : (
+              <button
+                key={page}
+                css={pageButtonStyles(currentPage === page)}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            )
+          ))}
+
+          <button
+            css={pageButtonStyles(false)}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={event.photos.map(photo => ({ 
+          src: photo.src,
+          title: photo.title,
+          download: photo.src
+        }))}
+        styles={{
+          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
+        }}
+        carousel={{ finite: false }}
+        controller={{ closeOnBackdropClick: true }}
+        plugins={[Download]}
+      />
+
+      <Footer />
+    </div>
+  );
+};
+
 // Main App with Router
 export default function PhotographyWebsite() {
   return (
@@ -1545,6 +2046,7 @@ export default function PhotographyWebsite() {
         <Route path="/video" element={<VideoPage />} />
         <Route path="/couchview" element={<CouchViewPage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/events/:eventId" element={<EventGalleryPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
