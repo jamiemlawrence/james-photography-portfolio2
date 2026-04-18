@@ -653,7 +653,7 @@ const Contact = () => {
                 Hi! I'm a passionate producer, photographer, and videographer.
               </p>
               <p css={paragraphStyles}>
-                I'd love the opportunity to create. Whether it's lifestyle, adventure, products, events, or something new, I'm fully on board!
+                I'd love the opportunity to create. Whether it's lifestyle, adventure, products, events, or something new. Feel free to reach out, I'd be happy to chat!
               </p>
             </div>
           </div>
