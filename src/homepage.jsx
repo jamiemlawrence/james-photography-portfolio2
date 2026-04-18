@@ -191,8 +191,10 @@ const Navigation = () => {
   );
 };
 
-// Hero Section with Magazine Layout
+// Hero Section with Orbital Layout
 const Hero = () => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
   const portfolioItems = [
     {
       image: '/photos/photo1.jpg',
@@ -227,343 +229,344 @@ const Hero = () => {
   ];
 
   const sectionStyles = css`
-    background: #f9fafb;
-    padding-top: 4rem;
+  background: #f9fafb;
+  padding-top: 4rem;
+  min-height: 100vh;
+
+  @media (min-width: 768px) {
+    padding-top: 5rem;
+  }
+`;
+
+const containerStyles = css`
+position: relative;
+width: 100%;
+max-width: 700px;
+height: 550px;
+margin: 0 auto;
+padding: 2rem;
+
+@media (min-width: 768px) {
+  height: 650px;
+  max-width: 900px;
+}
+
+@media (min-width: 1024px) {
+  height: 700px;
+  max-width: 1000px;
+}
+`;
+
+const centerImageStyles = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 3px solid #B91C1C;
+  object-fit: cover;
+  object-position: center 20%; /* Adjust this - lower % = more top */
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+    box-shadow: 0 8px 20px rgba(185, 28, 28, 0.4);
+  }
+
+  &:active {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+
+  @media (min-width: 768px) {
+    width: 180px;
+    height: 180px;
+    border: 4px solid #B91C1C;
+  }
+
+  @media (min-width: 1024px) {
+    width: 200px;
+    height: 200px;
+  }
+`;
+
+const orbitStyles = (index, total) => {
+const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
+const radius = 150; // Reduced from 250
+const radiusMd = 190; // Reduced from 300
+const radiusLg = 210; // Reduced from 350
+
+const x = Math.cos(angle) * radius;
+const y = Math.sin(angle) * radius;
+const xMd = Math.cos(angle) * radiusMd;
+const yMd = Math.sin(angle) * radiusMd;
+const xLg = Math.cos(angle) * radiusLg;
+const yLg = Math.sin(angle) * radiusLg;
+
+return css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% + ${x}px), calc(-50% + ${y}px));
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  z-index: 5;
+
+  @media (min-width: 768px) {
+    transform: translate(calc(-50% + ${xMd}px), calc(-50% + ${yMd}px));
+  }
+
+  @media (min-width: 1024px) {
+    transform: translate(calc(-50% + ${xLg}px), calc(-50% + ${yLg}px));
+  }
+
+  ${hoveredIndex === index && css`
+    transform: translate(calc(-50% + ${x * 1.15}px), calc(-50% + ${y * 1.15}px)) scale(1.1);
+    z-index: 15;
 
     @media (min-width: 768px) {
-      padding-top: 5rem;
-    }
-  `;
-
-  const heroContainerStyles = css`
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 0;
-
-    @media (min-width: 768px) {
-      padding: 0;
-    }
-  `;
-
-  const heroTextContainerStyles = css`
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 30;
-    pointer-events: none;
-  `;
-
-  const heroTextStyles = css`
-    font-size: 2.5rem;
-    font-weight: 900;
-    letter-spacing: -0.05em;
-    line-height: 1;
-    text-align: center;
-    padding: 0 1rem;
-    color: #B91C1C;
-
-    @media (min-width: 640px) {
-      font-size: 4rem;
-    }
-
-    @media (min-width: 768px) {
-      font-size: 5rem;
+      transform: translate(calc(-50% + ${xMd * 1.15}px), calc(-50% + ${yMd * 1.15}px)) scale(1.1);
     }
 
     @media (min-width: 1024px) {
-      font-size: 7rem;
+      transform: translate(calc(-50% + ${xLg * 1.15}px), calc(-50% + ${yLg * 1.15}px)) scale(1.1);
     }
+  `}
+`;
+};
 
-    @media (min-width: 1280px) {
-      font-size: 10rem;
-    }
-  `;
+const cardStyles = css`
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80px;
+  transition: box-shadow 0.3s ease;
 
-  const cardsContainerStyles = css`
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1rem;
+  &:hover {
+    box-shadow: 0 8px 20px rgba(185, 28, 28, 0.3);
+  }
 
-    @media (min-width: 768px) {
-      padding: 2rem;
-    }
-  `;
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
 
-  const topRowStyles = css`
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-    gap: 1rem;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+  @media (min-width: 768px) {
+    width: 100px;
+  }
 
-    @media (min-width: 768px) {
-      flex-wrap: nowrap;
-      justify-content: space-around;
-      margin-bottom: 12rem;
-    }
-  `;
+  @media (min-width: 1024px) {
+    width: 110px;
+  }
+`;
 
-  const bottomRowStyles = css`
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 1rem;
-    max-width: 1000px;
-    margin: 0 auto;
+const cardImageStyles = css`
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+`;
 
-    @media (min-width: 768px) {
-      flex-wrap: nowrap;
-      justify-content: space-around;
-    }
-  `;
+const cardTextStyles = css`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  text-align: center;
+`;
 
-  const cardStyles = css`
-    cursor: pointer;
-    flex: 0 0 auto;
-    width: 130px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+const cardTitleStyles = css`
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 
-    @media (min-width: 640px) {
-      width: 150px;
-    }
+  @media (min-width: 768px) {
+    font-size: 0.75rem;
+  }
+`;
 
-    @media (min-width: 768px) {
-      width: 180px;
-      flex-direction: row-reverse;
-      gap: 0.75rem;
-    }
+const cardSubtitleStyles = css`
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.025em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 
-    @media (min-width: 1024px) {
-      width: 200px;
-    }
-  `;
-
-  const imageContainerStyles = css`
-    position: relative;
-    overflow: hidden;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    flex-shrink: 0;
-    width: 100%;
-  `;
-
-  const imageStyles = css`
-    width: 100%;
-    aspect-ratio: 3/4;
-    object-fit: cover;
-    transition: transform 0.7s;
-
-    ${cardStyles}:hover & {
-      transform: scale(1.05);
-    }
-  `;
-
-  const overlayStyles = css`
-    position: absolute;
-    inset: 0;
-    background: black;
-    opacity: 0;
-    transition: opacity 0.3s;
-
-    ${cardStyles}:hover & {
-      opacity: 0.2;
-    }
-  `;
-
-  const cardTextStyles = css`
-    text-align: center;
-    flex-shrink: 0;
-
-    @media (min-width: 768px) {
-      text-align: left;
-    }
-  `;
-
-  const cardTitleStyles = css`
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
-
-    @media (min-width: 640px) {
-      font-size: 0.75rem;
-    }
-
-    @media (min-width: 768px) {
-      font-size: 0.875rem;
-    }
-  `;
-
-  const cardSubtitleStyles = css`
-    font-size: 0.625rem;
-    color: #666;
-    letter-spacing: 0.025em;
-
-    @media (min-width: 640px) {
-      font-size: 0.75rem;
-    }
-  `;
+  @media (min-width: 768px) {
+    font-size: 0.65rem;
+  }
+`;
 
   const taglineContainerStyles = css`
-    position: relative;
-    z-index: 30;
-    padding: 2rem 1rem 3rem;
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0 1rem;
 
     @media (min-width: 768px) {
-      padding: 0 1.5rem 5rem;
+      bottom: 3rem;
     }
   `;
 
-  const taglineInnerStyles = css`
-    max-width: 1024px;
-    margin: 0 auto;
-    text-align: center;
+  const brandsStyles = css`
+    margin-top: 2rem;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
   `;
 
   return (
-    <section css={sectionStyles}>
-      {/* Hero Container */}
-      <div css={heroContainerStyles}>
-        {/* Main Hero Text - Centered */}
-        <div css={heroTextContainerStyles}>
-          <h1 css={heroTextStyles}>
-            JAMES<br />LAWRENCE
-          </h1>
-        </div>
-
-        {/* Portfolio Cards - Staggered Layout */}
-        <div css={cardsContainerStyles}>
-          {/* Top Row - 3 images */}
-          <div css={topRowStyles}>
-            {portfolioItems.slice(0, 3).map((item, index) => (
-              <Link 
-                key={index} 
-                to={item.link}
-                css={css`text-decoration: none; color: inherit;`}
-              >
-                <div css={cardStyles}>
-                  <div css={imageContainerStyles}>
-                    <img 
-                      src={item.image}
-                      alt={item.title}
-                      css={imageStyles}
-                    />
-                    <div css={overlayStyles}></div>
-                  </div>
-                  <div css={cardTextStyles}>
-                    <h3 css={cardTitleStyles}>{item.title}</h3>
-                    <p css={cardSubtitleStyles}>{item.subtitle}</p>
-                  </div>
+    <section css={sectionStyles} id="home">
+      {/* Orbital Container */}
+      <div css={containerStyles}>
+        {/* Center Image */}
+        <Link to="/contact">
+        <img 
+          src="/photos/photoJames.jpg"
+          alt="James Lawrence"
+          css={centerImageStyles}
+        />
+        </Link>
+  
+        {/* Orbiting Category Cards */}
+        {portfolioItems.map((item, index) => (
+          <Link 
+            key={index}
+            to={item.link}
+            css={css`text-decoration: none;`}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <div css={orbitStyles(index, portfolioItems.length)}>
+              <div css={cardStyles}>
+                <img 
+                  src={item.image}
+                  alt={item.title}
+                  css={cardImageStyles}
+                />
+                <div css={cardTextStyles}>
+                  <h3 css={cardTitleStyles}>{item.title}</h3>
+                  <p css={cardSubtitleStyles}>{item.subtitle}</p>
                 </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Bottom Row - 2 images */}
-          <div css={bottomRowStyles}>
-            {portfolioItems.slice(3, 5).map((item, index) => (
-              <Link 
-                key={index} 
-                to={item.link}
-                css={css`text-decoration: none; color: inherit;`}
-              >
-                <div css={cardStyles}>
-                  <div css={imageContainerStyles}>
-                    <img 
-                      src={item.image}
-                      alt={item.title}
-                      css={imageStyles}
-                    />
-                    <div css={overlayStyles}></div>
-                  </div>
-                  <div css={cardTextStyles}>
-                    <h3 css={cardTitleStyles}>{item.title}</h3>
-                    <p css={cardSubtitleStyles}>{item.subtitle}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
-
-      {/* Bottom Tagline & Brands */}
-      <div css={taglineContainerStyles}>
-        <div css={taglineInnerStyles}>
-          {/* Brands Banner */}
-          <div>
-            <img 
-              src="/photos/Brands.png"
-              alt="Brand Logos"
-              css={css`
-                max-width: 100%;
-                height: auto;
-                margin: 0 auto;
-                display: block;
-              `}
-            />
-          </div>
-        </div>
+  
+      {/* Brands Banner - Separate container */}
+      <div css={css`
+        text-align: center;
+        padding: 2rem 1rem;
+  
+        @media (min-width: 768px) {
+          padding: 3rem 1.5rem;
+        }
+      `}>
+        <img 
+          src="/photos/Brands.png"
+          alt="Brand Logos"
+          css={css`
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+          `}
+        />
       </div>
     </section>
   );
 };
 
-// About Me Section
-const AboutMe = () => {
+// Contact Section (links under title)
+const Contact = () => {
   const sectionStyles = css`
-    padding: 3rem 1rem;
+    padding: 8rem 1rem 3rem;
     background: white;
 
     @media (min-width: 768px) {
-      padding: 5rem 1.5rem;
+      padding: 10rem 1.5rem 5rem;
     }
 
     @media (min-width: 1024px) {
-      padding: 8rem 1.5rem;
+      padding: 10rem 1.5rem 8rem;
     }
   `;
 
   const containerStyles = css`
-    max-width: 1280px;
+    max-width: 1152px;
     margin: 0 auto;
   `;
 
   const headingStyles = css`
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-align: center;
     letter-spacing: -0.025em;
 
     @media (min-width: 768px) {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
+      font-size: 2rem;
+      margin-bottom: 2rem;
     }
 
     @media (min-width: 1024px) {
-      font-size: 3rem;
-      margin-bottom: 5rem;
+      font-size: 2.5rem;
+    }
+  `;
+
+  const linksContainerStyles = css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+
+    @media (min-width: 640px) {
+      flex-direction: row;
+      justify-content: center;
+      gap: 2rem;
     }
 
-    @media (min-width: 1280px) {
-      font-size: 3.75rem;
+    @media (min-width: 768px) {
+      margin-bottom: 4rem;
+    }
+  `;
+
+  const linkStyles = css`
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #666;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 1.125rem;
     }
   `;
 
@@ -572,8 +575,6 @@ const AboutMe = () => {
     grid-template-columns: 1fr;
     gap: 2rem;
     align-items: center;
-    max-width: 1152px;
-    margin: 0 auto;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
@@ -611,155 +612,9 @@ const AboutMe = () => {
     <section css={sectionStyles}>
       <div css={containerStyles}>
         <FadeIn>
-          <h2 css={headingStyles}>ABOUT ME</h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <div css={gridStyles}>
-            <div>
-              <img 
-                src='/photos/photoJames.jpg'
-                alt="About Me"
-                css={imageStyles}
-              />
-            </div>
-            <div>
-              <p css={paragraphStyles}>
-                Hi! I'm a passionate producer, photographer, and videographer.
-              </p>
-              <p css={paragraphStyles}>
-                I'd love the opportunity to create. Whether it's lifestyle, adventure, products, events, or something new, I'm fully on board
-              </p>
-            </div>
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  );
-};
-
-// Contact Section
-const Contact = () => {
-  const sectionStyles = css`
-    padding: 3rem 1rem;
-    background: white;
-
-    @media (min-width: 768px) {
-      padding: 5rem 1.5rem;
-    }
-
-    @media (min-width: 1024px) {
-      padding: 8rem 1.5rem;
-    }
-  `;
-
-  const containerStyles = css`
-    max-width: 1024px;
-    margin: 0 auto;
-    text-align: center;
-  `;
-
-  const headingStyles = css`
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    letter-spacing: -0.025em;
-
-    @media (min-width: 768px) {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 3rem;
-      margin-bottom: 2rem;
-    }
-
-    @media (min-width: 1280px) {
-      font-size: 3.75rem;
-    }
-  `;
-
-  const descriptionStyles = css`
-    color: #374151;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    max-width: 768px;
-    margin-left: auto;
-    margin-right: auto;
-
-    @media (min-width: 768px) {
-      font-size: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 1.125rem;
-      margin-bottom: 3rem;
-    }
-  `;
-
-  const linksContainerStyles = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-
-    @media (min-width: 640px) {
-      flex-direction: row;
-      gap: 1.5rem;
-    }
-
-    @media (min-width: 768px) {
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    @media (min-width: 1024px) {
-      margin-bottom: 3rem;
-    }
-  `;
-
-  const linkStyles = css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    color: #000;
-    text-decoration: none;
-    transition: color 0.3s;
-    word-break: break-all;
-
-    &:hover {
-      color: #666;
-    }
-
-    @media (min-width: 640px) {
-      font-size: 0.9rem;
-      gap: 0.6rem;
-    }
-
-    @media (min-width: 768px) {
-      font-size: 1rem;
-      gap: 0.75rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 1.125rem;
-    }
-  `;
-
-  return (
-    <section css={sectionStyles}>
-      <div css={containerStyles}>
-        <FadeIn>
           <h2 css={headingStyles}>GET IN TOUCH</h2>
-          <p css={descriptionStyles}>
-            Interested in working together? Feel free to reach out, I'd be happy to chat!
-          </p>
-        </FadeIn>
-        <FadeIn delay={0.2}>
+          
+          {/* Contact Links - directly under title */}
           <div css={linksContainerStyles}>
             <a 
               href="mailto:jamesphotographyco@gmail.com"
@@ -777,6 +632,29 @@ const Contact = () => {
               <Instagram size={20} />
               <span>@jamesphotographyco</span>
             </a>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.2}>
+          <div css={gridStyles}>
+            {/* Left: Image */}
+            <div>
+              <img 
+                src='/photos/photoJames.jpg'
+                alt="James Lawrence"
+                css={imageStyles}
+              />
+            </div>
+
+            {/* Right: About Text */}
+            <div>
+              <p css={paragraphStyles}>
+                Hi! I'm a passionate producer, photographer, and videographer.
+              </p>
+              <p css={paragraphStyles}>
+                I'd love the opportunity to create. Whether it's lifestyle, adventure, products, events, or something new, I'm fully on board!
+              </p>
+            </div>
           </div>
         </FadeIn>
       </div>
@@ -1163,7 +1041,6 @@ const HomePage = () => {
     <div style={{ minHeight: '100vh', background: 'white' }}>
       <Navigation />
       <Hero />
-      <AboutMe />
       <Footer />
     </div>
   );
