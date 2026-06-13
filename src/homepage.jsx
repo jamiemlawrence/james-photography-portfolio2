@@ -51,8 +51,8 @@ const Navigation = () => {
     position: fixed;
     width: 100%;
     z-index: 50;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    background: transparent;
+    box-shadow: none;
   `;
 
   const navContainerStyles = css`
@@ -89,12 +89,13 @@ const Navigation = () => {
   const linkStyles = css`
     font-size: 0.875rem;
     letter-spacing: 0.05em;
-    color: #000;
+    color: black;
     text-decoration: none;
     transition: color 0.3s;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
     &:hover {
-      color: #666;
+      color: #B91C1C;
     }
   `;
 
@@ -106,7 +107,8 @@ const Navigation = () => {
     font-weight: bold;
     letter-spacing: -0.025em;
     text-decoration: none;
-    color: #000;
+    color: black;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
     @media (min-width: 768px) {
       font-size: 1rem;
@@ -120,6 +122,7 @@ const Navigation = () => {
     border: none;
     cursor: pointer;
     padding: 0.5rem;
+    color: black;
 
     @media (min-width: 768px) {
       display: none;
@@ -127,8 +130,9 @@ const Navigation = () => {
   `;
 
   const mobileMenuStyles = css`
-    background: white;
-    border-top: 1px solid #e5e7eb;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1.5rem;
 
     @media (min-width: 768px) {
@@ -140,6 +144,18 @@ const Navigation = () => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  `;
+
+  const mobileLinkStyles = css`
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #B91C1C;
+    }
   `;
 
   return (
@@ -179,12 +195,12 @@ const Navigation = () => {
       {mobileMenuOpen && (
         <div css={mobileMenuStyles}>
           <div css={mobileMenuLinksStyles}>
-            <Link to="/" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Home</Link>
-            <Link to="/photos" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</Link>
-            <Link to="/video" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Video</Link>
-            <Link to="/couchview" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>CouchView</Link>
-            <Link to="/events" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Events</Link>
-            <Link to="/contact" css={linkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+            <Link to="/" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Home</Link>
+            <Link to="/photos" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</Link>
+            <Link to="/video" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Video</Link>
+            <Link to="/couchview" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>CouchView</Link>
+            <Link to="/events" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Events</Link>
+            <Link to="/contact" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</Link>
           </div>
         </div>
       )}
@@ -192,303 +208,120 @@ const Navigation = () => {
   );
 };
 
-// Hero Section with Orbital Layout
 const Hero = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const images = [
+    { src: '/photos/cycle27.jpg', landscape: false },
+    { src: '/photos/photoski.jpg', landscape: false },
+    { src: '/photos/horizontal12.jpg', landscape: true },
+    { src: '/photos/auto4.jpeg', landscape: false },
+    { src: '/photos/life1.jpg', landscape: false },
+    { src: '/photos/food1.jpg', landscape: false },
+    { src: '/photos/horizontal15.jpg', landscape: true },
+    { src: '/photos/cycle19.jpg', landscape: false },
+    { src: '/photos/ski6.jpg', landscape: false },
+    { src: '/photos/cycle36.jpg', landscape: false },
+    { src: '/photos/auto2.jpeg', landscape: false },
+    { src: '/photos/food5.jpg', landscape: false },
+    { src: '/photos/cycle0.jpg', landscape: false },
+    { src: '/photos/horizontal7.jpg', landscape: true },
+    { src: '/photos/ski3.jpg', landscape: false },
+    { src: '/photos/auto5.jpg', landscape: false },
+    { src: '/photos/horizontal1.jpg', landscape: true },
+    { src: '/photos/life21.jpg', landscape: false },
+    { src: '/photos/auto1.jpeg', landscape: false },
+    { src: '/photos/cycle37.jpg', landscape: false },
+    { src: '/photos/photofood.jpg', landscape: false },
+    { src: '/photos/cycle15.jpg', landscape: false },
+    { src: '/photos/cover11.png', landscape: true },
+    { src: '/photos/auto6.jpg', landscape: false },
+    { src: '/photos/DSC06225.jpg', landscape: false },
 
-  const portfolioItems = [
-    {
-      image: '/photos/photo1.jpg',
-      title: 'CYCLE',
-      subtitle: 'road & dirt',
-      link: '/photos#cycle'
-    },
-    {
-      image: '/photos/photoski.jpg',
-      title: 'SKI',
-      subtitle: 'snow',
-      link: '/photos#ski'
-    },
-    {
-      image: '/photos/auto4.jpeg',
-      title: 'AUTO',
-      subtitle: 'racing',
-      link: '/photos#auto'
-    },
-    {
-      image: '/photos/photo3.jpg',
-      title: 'LIFESTYLE',
-      subtitle: 'portrait',
-      link: '/photos#lifestyle'
-    },
-    {
-      image: '/photos/photofood.jpg',
-      title: 'CULINARY',
-      subtitle: 'eats',
-      link: '/photos#culinary'
-    }
   ];
 
   const sectionStyles = css`
-  background: #f9fafb;
-  padding-top: 4rem;
-  min-height: 100vh;
+  padding: 3rem 1.5rem;
+  background: white;
 
-  @media (min-width: 768px) {
-    padding-top: 5rem;
-  }
-`;
-
-const containerStyles = css`
-position: relative;
-width: 100%;
-max-width: 700px;
-height: 550px;
-margin: 0 auto;
-padding: 2rem;
-
-@media (min-width: 768px) {
-  height: 650px;
-  max-width: 900px;
-}
-
-@media (min-width: 1024px) {
-  height: 700px;
-  max-width: 1000px;
-}
-`;
-
-const centerImageStyles = css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  border: 3px solid #B91C1C;
-  object-fit: cover;
-  object-position: center 20%; /* Adjust this - lower % = more top */
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.5s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-
-  &:hover {
-    transform: translate(-50%, -50%) scale(1.15);
-    box-shadow: 0 8px 20px rgba(185, 28, 28, 0.4);
-  }
-
-  &:active {
-    transform: translate(-50%, -50%) scale(1.05);
+  @media (min-width: 640px) {
+    padding: 4rem 2rem;
   }
 
   @media (min-width: 768px) {
-    width: 180px;
-    height: 180px;
-    border: 4px solid #B91C1C;
+    padding: 5rem 3rem;
   }
 
   @media (min-width: 1024px) {
-    width: 200px;
-    height: 200px;
+    padding: 6rem 4rem;
   }
 `;
 
-const orbitStyles = (index, total) => {
-const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
-const radius = 150; // Reduced from 250
-const radiusMd = 190; // Reduced from 300
-const radiusLg = 210; // Reduced from 350
+  const masonryStyles = css`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    grid-auto-flow: dense;
 
-const x = Math.cos(angle) * radius;
-const y = Math.sin(angle) * radius;
-const xMd = Math.cos(angle) * radiusMd;
-const yMd = Math.sin(angle) * radiusMd;
-const xLg = Math.cos(angle) * radiusLg;
-const yLg = Math.sin(angle) * radiusLg;
-
-return css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(calc(-50% + ${x}px), calc(-50% + ${y}px));
-  transition: transform 0.5s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  z-index: 5;
-
-  @media (min-width: 768px) {
-    transform: translate(calc(-50% + ${xMd}px), calc(-50% + ${yMd}px));
-  }
-
-  @media (min-width: 1024px) {
-    transform: translate(calc(-50% + ${xLg}px), calc(-50% + ${yLg}px));
-  }
-
-  ${hoveredIndex === index && css`
-    transform: translate(calc(-50% + ${x * 1.15}px), calc(-50% + ${y * 1.15}px)) scale(1.1);
-    z-index: 15;
-
-    @media (min-width: 768px) {
-      transform: translate(calc(-50% + ${xMd * 1.15}px), calc(-50% + ${yMd * 1.15}px)) scale(1.1);
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.5rem;
     }
 
     @media (min-width: 1024px) {
-      transform: translate(calc(-50% + ${xLg * 1.15}px), calc(-50% + ${yLg * 1.15}px)) scale(1.1);
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3rem;
     }
-  `}
-`;
-};
 
-const cardStyles = css`
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80px;
-  transition: box-shadow 0.3s ease;
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 3rem;
+    }
+  `;
 
-  &:hover {
-    box-shadow: 0 8px 20px rgba(185, 28, 28, 0.3);
-  }
+  const imageContainerStyles = (isLandscape) => css`
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: ${isLandscape ? '16/9' : '3/4'};
+    grid-column: ${isLandscape ? 'span 2' : 'span 1'};
+    
+    @media (min-width: 640px) {
+      grid-column: ${isLandscape ? 'span 2' : 'span 1'};
+    }
 
-  &:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+    @media (min-width: 1024px) {
+      grid-column: ${isLandscape ? 'span 2' : 'span 1'};
+    }
+  `;
 
-  @media (min-width: 768px) {
-    width: 100px;
-  }
+  const imageStyles = css`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
 
-  @media (min-width: 1024px) {
-    width: 110px;
-  }
-`;
-
-const cardImageStyles = css`
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  display: block;
-`;
-
-const cardTextStyles = css`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0.5rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-  text-align: center;
-`;
-
-const cardTitleStyles = css`
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.15rem;
-  color: white;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-
-  @media (min-width: 768px) {
-    font-size: 0.75rem;
-  }
-`;
-
-const cardSubtitleStyles = css`
-  font-size: 0.55rem;
-  color: rgba(255, 255, 255, 0.9);
-  letter-spacing: 0.025em;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-
-  @media (min-width: 768px) {
-    font-size: 0.65rem;
-  }
-`;
-
- // const taglineContainerStyles = css`
-    //position: absolute;
-   // bottom: 2rem;
-   // left: 0;
-   // right: 0;
-   // text-align: center;
-   // padding: 0 1rem;
-
-   // @media (min-width: 768px) {
-   //   bottom: 3rem;
-   // }
-  //`;
-
-  //const brandsStyles = css`
-   // margin-top: 2rem;
-
-   // img {
-   //   max-width: 100%;
-    //  height: auto;
-   //   margin: 0 auto;
-    //  display: block;
-   // }
-  //`;
+    &:hover {
+      transform: scale(1.05);
+    }
+  `;
 
   return (
-    <section css={sectionStyles} id="home">
-      {/* Orbital Container */}
-      <div css={containerStyles}>
-        {/* Center Image */}
-        <Link to="/contact">
-        <img 
-          src="/photos/photoJames.jpg"
-          alt="James Lawrence"
-          css={centerImageStyles}
-        />
-        </Link>
-  
-        {/* Orbiting Category Cards */}
-        {portfolioItems.map((item, index) => (
-          <Link 
-            key={index}
-            to={item.link}
-            css={css`text-decoration: none;`}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <div css={orbitStyles(index, portfolioItems.length)}>
-              <div css={cardStyles}>
-                <img 
-                  src={item.image}
-                  alt={item.title}
-                  css={cardImageStyles}
-                />
-                <div css={cardTextStyles}>
-                  <h3 css={cardTitleStyles}>{item.title}</h3>
-                  <p css={cardSubtitleStyles}>{item.subtitle}</p>
-                </div>
-              </div>
-            </div>
-          </Link>
+    <section css={sectionStyles}>
+      <div css={masonryStyles}>
+        {images.map((image, idx) => (
+          <div key={idx} css={imageContainerStyles(image.landscape)}>
+            <img 
+              src={image.src}
+              alt={`Portfolio ${idx}`}
+              css={imageStyles}
+              loading="lazy"
+            />
+          </div>
         ))}
-      </div>
-  
-      {/* Brands Banner - Separate container */}
-      <div css={css`
-        text-align: center;
-        padding: 2rem 1rem;
-  
-        @media (min-width: 768px) {
-          padding: 3rem 1.5rem;
-        }
-      `}>
-        <img 
-          src="/photos/Brands.png"
-          alt="Brand Logos"
-          css={css`
-            max-width: 100%;
-            height: auto;
-            margin: 0 auto;
-            display: block;
-          `}
-        />
       </div>
     </section>
   );
@@ -517,6 +350,7 @@ const Contact = () => {
   const headingStyles = css`
     font-size: 1.75rem;
     font-weight: bold;
+    color: black;
     margin-bottom: 1.5rem;
     text-align: center;
     letter-spacing: -0.025em;
@@ -554,7 +388,7 @@ const Contact = () => {
     align-items: center;
     gap: 0.75rem;
     font-size: 0.875rem;
-    color: #000;
+    color: black;
     text-decoration: none;
     transition: color 0.3s;
 
@@ -594,7 +428,7 @@ const Contact = () => {
   `;
 
   const paragraphStyles = css`
-    color: #374151;
+    color: black;
     font-size: 0.9rem;
     line-height: 1.625;
     margin-bottom: 1rem;
@@ -700,6 +534,7 @@ const Footer = () => {
   const logoStyles = css`
     font-size: 1.125rem;
     font-weight: bold;
+    color: black;
     letter-spacing: -0.025em;
 
     @media (min-width: 768px) {
@@ -847,7 +682,7 @@ const PortfolioGrid = () => {
   const sectionStyles = css`
     padding: 3rem 1rem;
     padding-top: 5rem;
-    background: #f9fafb;
+    background: white;
     min-height: 100vh;
 
     @media (min-width: 768px) {
@@ -869,6 +704,7 @@ const PortfolioGrid = () => {
   const headingStyles = css`
   font-size: 1.75rem;
   font-weight: bold;
+  color: white;
   margin-bottom: 1.5rem;
   text-align: center;
   letter-spacing: -0.025em;
@@ -903,6 +739,7 @@ const PortfolioGrid = () => {
   const categoryTitleStyles = css`
     font-size: 1.25rem;
     font-weight: bold;
+    color: grey;
     margin-bottom: 1rem;
     letter-spacing: 0.025em;
 
@@ -1036,10 +873,10 @@ const PortfolioGrid = () => {
   );
 };
 
-// HOME PAGE
+// Home Page
 const HomePage = () => {
   return (
-    <div style={{ minHeight: '100vh', background: 'white' }}>
+    <div style={{ minHeight: '100vh', background: '#000', color: 'white' }}>
       <Navigation />
       <Hero />
       <Footer />
@@ -1050,7 +887,7 @@ const HomePage = () => {
 // PHOTOS PAGE
 const PhotosPage = () => {
   return (
-    <div style={{ minHeight: '100vh', background: '#f9fafb' }}>
+    <div style={{ minHeight: '100vh', background: '#000', color: 'white' }}>
       <Navigation />
       <PortfolioGrid />
       <Footer />
@@ -1063,7 +900,7 @@ const VideoPage = () => {
   const sectionStyles = css`
     padding: 3rem 1rem;
     padding-top: 5rem;
-    background: #f9fafb;
+    background: white;
     min-height: 100vh;
 
     @media (min-width: 768px) {
@@ -1085,6 +922,7 @@ const VideoPage = () => {
   const headingStyles = css`
     font-size: 2rem;
     font-weight: bold;
+    color: black;
     margin-bottom: 1rem;
     text-align: center;
     letter-spacing: -0.025em;
@@ -1111,7 +949,7 @@ const VideoPage = () => {
     overflow: hidden;
     max-width: 100%;
     margin: 0 auto;
-    background: #000;
+    background: black;
 
     @media (min-width: 768px) {
       padding-bottom: 42.1875%;
@@ -1128,7 +966,7 @@ const VideoPage = () => {
   `;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f9fafb' }}>
+    <div style={{ minHeight: '100vh', background: '#000' }}>
       <Navigation />
       <section css={sectionStyles}>
         <div css={containerStyles}>
@@ -1210,7 +1048,7 @@ const CouchViewPage = () => {
 
   const pageStyles = css`
     min-height: 100vh;
-    background: #f9fafb;
+    background: white;
   `;
 
   const heroStyles = css`
@@ -1225,6 +1063,7 @@ const CouchViewPage = () => {
 
   const heroTitleStyles = css`
     font-size: 3rem;
+    color: black;
     font-weight: bold;
     margin-bottom: 1rem;
     letter-spacing: -0.025em;
@@ -1262,7 +1101,7 @@ const CouchViewPage = () => {
   `;
 
   const linkStyles = css`
-    color: #000;
+    color: #666;
     text-decoration: none;
     transition: color 0.3s;
     display: flex;
@@ -1482,7 +1321,7 @@ const EventsPage = () => {
 
   const pageStyles = css`
     min-height: 100vh;
-    background: #f9fafb;
+    background: white;
   `;
 
   const containerStyles = css`
@@ -1500,6 +1339,7 @@ const EventsPage = () => {
   const headingStyles = css`
     font-size: 2rem;
     font-weight: bold;
+    color: black;
     margin-bottom: 1rem;
     text-align: center;
 
@@ -1663,7 +1503,7 @@ const EventsPage = () => {
 const ContactPage = () => {
   const pageStyles = css`
     min-height: 100vh;
-    background: white;
+    background: black;
   `;
 
   return (
@@ -1757,11 +1597,11 @@ const EventGalleryPage = () => {
 
   const pageStyles = css`
     min-height: 100vh;
-    background: #000;
+    background: white;
   `;
 
   const headerStyles = css`
-    background: #1a1a1a;
+    background: white;
     padding: 6rem 1rem 2rem;
     text-align: center;
     border-bottom: 1px solid #333;
