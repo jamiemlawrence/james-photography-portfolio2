@@ -108,7 +108,6 @@ const Navigation = () => {
     letter-spacing: -0.025em;
     text-decoration: none;
     color: black;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
     @media (min-width: 768px) {
       font-size: 1rem;
@@ -130,8 +129,8 @@ const Navigation = () => {
   `;
 
   const mobileMenuStyles = css`
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    background: transparent;
+    backdrop-filter: blur(20px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1.5rem;
 
@@ -149,7 +148,7 @@ const Navigation = () => {
   const mobileLinkStyles = css`
     font-size: 0.875rem;
     letter-spacing: 0.05em;
-    color: white;
+    color: black;
     text-decoration: none;
     transition: color 0.3s;
 
@@ -243,14 +242,17 @@ const Hero = () => {
 
   const sectionStyles = css`
   padding: 3rem 1.5rem;
+  padding-top: 5rem;
   background: white;
 
   @media (min-width: 640px) {
     padding: 4rem 2rem;
+    padding-top: 5rem;
   }
 
   @media (min-width: 768px) {
     padding: 5rem 3rem;
+    padding-top: 6rem;
   }
 
   @media (min-width: 1024px) {
