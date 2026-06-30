@@ -198,7 +198,7 @@ const Navigation = () => {
             <Link to="/photos" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</Link>
             <Link to="/video" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Video</Link>
             <Link to="/couchview" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>CouchView</Link>
-            <Link to="/events" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Events</Link>
+            {/*<Link to="/events" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Events</Link>*/}
             <Link to="/contact" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</Link>
           </div>
         </div>
@@ -1328,7 +1328,7 @@ const CouchViewPage = () => {
 };
 
 
-// EVENTS PAGE
+/*// EVENTS PAGE
 const EventsPage = () => {
   const events = [
     {
@@ -1519,7 +1519,7 @@ const EventsPage = () => {
       <Footer />
     </div>
   );
-};
+};*/
 
 // CONTACT PAGE
 const ContactPage = () => {
@@ -1537,7 +1537,7 @@ const ContactPage = () => {
   );
 };
 
-// EVENT GALLERY PAGE
+/*// EVENT GALLERY PAGE
 const EventGalleryPage = () => {
   const { eventId } = useParams();
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -1874,7 +1874,6 @@ const EventGalleryPage = () => {
           ))}
         </div>
 
-        {/* Pagination */}
         <div css={paginationContainerStyles}>
           <button
             css={pageButtonStyles(false)}
@@ -1935,6 +1934,7 @@ const EventGalleryPage = () => {
     </div>
   );
 };
+*/
 
 // Main App with Router
 export default function PhotographyWebsite() {
