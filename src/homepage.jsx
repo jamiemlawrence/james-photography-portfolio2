@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import Lightbox from "yet-another-react-lightbox";
 /*import Download from "yet-another-react-lightbox/plugins/download";*/
 import "yet-another-react-lightbox/styles.css";
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 
 // Fade-in animation keyframe
