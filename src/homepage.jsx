@@ -51,8 +51,9 @@ const Navigation = () => {
     position: fixed;
     width: 100%;
     z-index: 50;
-    background: transparent;
-    box-shadow: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
   `;
 
   const navContainerStyles = css`
@@ -89,10 +90,9 @@ const Navigation = () => {
   const linkStyles = css`
     font-size: 0.875rem;
     letter-spacing: 0.05em;
-    color: black;
+    color: #000;
     text-decoration: none;
     transition: color 0.3s;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
     &:hover {
       color: #B91C1C;
@@ -177,7 +177,6 @@ const Navigation = () => {
 
           {/* Right Menu */}
           <div css={menuStyles}>
-            <Link to="/events" css={linkStyles}>Events</Link>
             <Link to="/contact" css={linkStyles}>Contact</Link>
           </div>
 
@@ -209,6 +208,10 @@ const Navigation = () => {
 };
 
 const Hero = () => {
+
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
   const images = [
     { src: '/photos/cycle27.jpg', landscape: false },
     { src: '/photos/photoski.jpg', landscape: false },
@@ -313,7 +316,14 @@ const Hero = () => {
     <section css={sectionStyles}>
       <div css={masonryStyles}>
         {images.map((image, idx) => (
-          <div key={idx} css={imageContainerStyles(image.landscape)}>
+          <div 
+            key={idx} 
+            css={imageContainerStyles(image.landscape)}
+            onClick={() => {
+              setLightboxIndex(idx);
+              setLightboxOpen(true);
+            }}
+          >
             <img 
               src={image.src}
               alt={`Portfolio ${idx}`}
@@ -323,6 +333,18 @@ const Hero = () => {
           </div>
         ))}
       </div>
+
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={images.map(img => ({ src: img.src }))}
+        styles={{
+          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
+        }}
+        carousel={{ finite: false }}
+        controller={{ closeOnBackdropClick: true }}
+      />
     </section>
   );
 };
@@ -704,7 +726,7 @@ const PortfolioGrid = () => {
   const headingStyles = css`
   font-size: 1.75rem;
   font-weight: bold;
-  color: white;
+  color: Black;
   margin-bottom: 1.5rem;
   text-align: center;
   letter-spacing: -0.025em;
@@ -1923,8 +1945,8 @@ export default function PhotographyWebsite() {
         <Route path="/photos" element={<PhotosPage />} />
         <Route path="/video" element={<VideoPage />} />
         <Route path="/couchview" element={<CouchViewPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/events/:eventId" element={<EventGalleryPage />} />
+        {/*<Route path="/events" element={<EventsPage />} />*/}
+        {/*<Route path="/events/:eventId" element={<EventGalleryPage />} />*/}
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
