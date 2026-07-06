@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css, keyframes } from '@emotion/react';
 import { Instagram, Mail, Menu, X } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
@@ -207,9 +207,10 @@ const Navigation = () => {
 };
 
 const Hero = () => {
-
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [draggingId, setDraggingId] = useState(null);
+  const [positions, setPositions] = useState({});
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [velocity, setVelocity] = useState({ x: 0, y: 0 });
 
   const images = [
     { src: '/photos/cycle27.jpg', landscape: false },
@@ -227,7 +228,7 @@ const Hero = () => {
     { src: '/photos/cycle0.jpg', landscape: false },
     { src: '/photos/horizontal7.jpg', landscape: true },
     { src: '/photos/ski3.jpg', landscape: false },
-    { src: '/photos/auto5.jpg', landscape: false },
+    { src: '/photos/auto5.png', landscape: false },
     { src: '/photos/horizontal1.jpg', landscape: true },
     { src: '/photos/life21.jpg', landscape: false },
     { src: '/photos/auto1.jpeg', landscape: false },
@@ -235,70 +236,204 @@ const Hero = () => {
     { src: '/photos/photofood.jpg', landscape: false },
     { src: '/photos/cycle15.jpg', landscape: false },
     { src: '/photos/cover11.png', landscape: true },
-    { src: '/photos/auto6.jpg', landscape: false },
+    { src: '/photos/auto6.png', landscape: false },
     { src: '/photos/DSC06225.jpg', landscape: false },
-
   ];
 
+  // Initialize random positions - smaller on mobile
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    const newPositions = {};
+    images.forEach((_, idx) => {
+      if (isMobile) {
+        newPositions[idx] = {
+          x: Math.random() * (window.innerWidth - 100),
+          y: Math.random() * (window.innerHeight - 200) + 50
+        };
+      } else {
+        newPositions[idx] = {
+          x: Math.random() * (window.innerWidth - 300),
+          y: Math.random() * (window.innerHeight - 300) + 100
+        };
+      }
+    });
+    setPositions(newPositions);
+  }, []);
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setPositions(prev => {
+        const updated = { ...prev };
+        
+        Object.keys(updated).forEach(idx => {
+          const pos = updated[idx];
+          
+          // Constrain to window bounds
+          pos.x = Math.max(0, Math.min(window.innerWidth - 100, pos.x));
+          pos.y = Math.max(0, Math.min(window.innerHeight - 100, pos.y));
+        });
+        
+        return updated;
+      });
+    };
+    
+    window.addEventListener('resize', handleWindowResize);
+    return () => window.removeEventListener('resize', handleWindowResize);
+  }, []);
+
+
+  // Mouse events (desktop)
+  const handleMouseDown = (idx, e) => {
+    setDraggingId(idx);
+    const rect = e.currentTarget.getBoundingClientRect();
+    setOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
+  // Touch events (mobile)
+  const handleTouchStart = (idx, e) => {
+    e.preventDefault();
+    setDraggingId(idx);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    setOffset({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (draggingId === null) return;
+    
+    const newX = e.clientX - offset.x;
+    const newY = e.clientY - offset.y;
+    
+    // Calculate velocity (change in position)
+    setVelocity({
+      x: newX - (positions[draggingId]?.x || 0),
+      y: newY - (positions[draggingId]?.y || 0)
+    });
+    
+    requestAnimationFrame(() => {
+      setPositions(prev => ({
+        ...prev,
+        [draggingId]: {
+          x: newX,
+          y: newY
+        }
+      }));
+    });
+  };
+
+  const handleTouchMove = (e) => {
+    if (draggingId === null) return;
+    e.preventDefault();
+    
+    const touch = e.touches[0];
+    const newX = touch.clientX - offset.x;
+    const newY = touch.clientY - offset.y;
+    
+    // Calculate velocity (change in position)
+    setVelocity({
+      x: newX - (positions[draggingId]?.x || 0),
+      y: newY - (positions[draggingId]?.y || 0)
+    });
+    
+    requestAnimationFrame(() => {
+      setPositions(prev => ({
+        ...prev,
+        [draggingId]: {
+          x: newX,
+          y: newY
+        }
+      }));
+    });
+  };
+
+  // Apply momentum when released
+  const handleMouseUp = () => {
+    if (draggingId === null) return;
+    
+    const friction = 0.95; // How much it slows down (0-1), adjust for different feel
+    let currentVelocity = { ...velocity };
+    let currentPos = { ...positions[draggingId] };
+    let id = draggingId;
+    
+    const applyMomentum = () => {
+      currentVelocity.x *= friction;
+      currentVelocity.y *= friction;
+      
+      currentPos.x += currentVelocity.x;
+      currentPos.y += currentVelocity.y;
+      
+      // Bounce off walls
+      const bounceElasticity = 0.6; // 0-1, higher = bouncier
+      
+      if (currentPos.x < 0) {
+        currentPos.x = 0;
+        currentVelocity.x *= -bounceElasticity;
+      } else if (currentPos.x > window.innerWidth - 100) {
+        currentPos.x = window.innerWidth - 100;
+        currentVelocity.x *= -bounceElasticity;
+      }
+      
+      if (currentPos.y < 0) {
+        currentPos.y = 0;
+        currentVelocity.y *= -bounceElasticity;
+      } else if (currentPos.y > window.innerHeight - 100) {
+        currentPos.y = window.innerHeight - 100;
+        currentVelocity.y *= -bounceElasticity;
+      }
+      
+      setPositions(prev => ({
+        ...prev,
+        [id]: currentPos
+      }));
+      
+      // Stop when velocity is tiny
+      if (Math.abs(currentVelocity.x) > 0.5 || Math.abs(currentVelocity.y) > 0.5) {
+        requestAnimationFrame(applyMomentum);
+      }
+    };
+    
+    applyMomentum();
+    setDraggingId(null);
+    setVelocity({ x: 0, y: 0 });
+  };
+
   const sectionStyles = css`
-  padding: 3rem 1.5rem;
-  padding-top: 5rem;
-  background: white;
-
-  @media (min-width: 640px) {
-    padding: 4rem 2rem;
-    padding-top: 5rem;
-  }
-
-  @media (min-width: 768px) {
-    padding: 5rem 3rem;
-    padding-top: 6rem;
-  }
-
-  @media (min-width: 1024px) {
-    padding: 6rem 4rem;
-  }
-`;
-
-  const masonryStyles = css`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    grid-auto-flow: dense;
-
-    @media (min-width: 640px) {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2.5rem;
-    }
-
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(5, 1fr);
-      gap: 3rem;
-    }
-
-    @media (min-width: 1280px) {
-      grid-template-columns: repeat(6, 1fr);
-      gap: 3rem;
-    }
+    min-height: 100vh;
+    height: 100vh;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    touch-action: none;
   `;
 
-  const imageContainerStyles = (isLandscape) => css`
+  const containerStyles = css`
+    position: relative;
     width: 100%;
-    display: block;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 4px;
-    aspect-ratio: ${isLandscape ? '16/9' : '3/4'};
-    grid-column: ${isLandscape ? 'span 2' : 'span 1'};
-    
-    @media (min-width: 640px) {
-      grid-column: ${isLandscape ? 'span 2' : 'span 1'};
+    height: 100%;
+  `;
+
+  const draggableImageStyles = (idx) => css`
+    position: absolute;
+    transform: translate(${positions[idx]?.x ?? 0}px, ${positions[idx]?.y ?? 0}px);
+    will-change: transform;
+    cursor: ${draggingId === idx ? 'grabbing' : 'grab'};
+    user-select: none;
+    touch-action: none;
+    transition: ${draggingId === idx ? 'none' : 'box-shadow 0.2s'};
+
+    &:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
-    @media (min-width: 1024px) {
-      grid-column: ${isLandscape ? 'span 2' : 'span 1'};
+    @media (max-width: 768px) {
+      width: 120px !important;
+      height: ${positions[idx]?.landscape ? '67px' : '160px'} !important;
     }
   `;
 
@@ -307,26 +442,32 @@ const Hero = () => {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: scale(1.05);
-    }
+    border-radius: 4px;
+    pointer-events: none;
   `;
 
   return (
-    <section css={sectionStyles}>
-      <div css={masonryStyles}>
+    <section 
+      css={sectionStyles}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleMouseUp}
+    >
+      <div css={containerStyles}>
         {images.map((image, idx) => (
-          <div 
-            key={idx} 
-            css={imageContainerStyles(image.landscape)}
-            onClick={() => {
-              setLightboxIndex(idx);
-              setLightboxOpen(true);
+          <div
+            key={idx}
+            css={draggableImageStyles(idx)}
+            style={{
+              width: image.landscape ? '300px' : '200px',
+              height: image.landscape ? '169px' : '266px',
             }}
+            onMouseDown={(e) => handleMouseDown(idx, e)}
+            onTouchStart={(e) => handleTouchStart(idx, e)}
           >
-            <img 
+            <img
               src={image.src}
               alt={`Portfolio ${idx}`}
               css={imageStyles}
@@ -335,18 +476,6 @@ const Hero = () => {
           </div>
         ))}
       </div>
-
-      <Lightbox
-        open={lightboxOpen}
-        close={() => setLightboxOpen(false)}
-        index={lightboxIndex}
-        slides={images.map(img => ({ src: img.src }))}
-        styles={{
-          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
-        }}
-        carousel={{ finite: false }}
-        controller={{ closeOnBackdropClick: true }}
-      />
     </section>
   );
 };
@@ -897,13 +1026,17 @@ const PortfolioGrid = () => {
   );
 };
 
-// Home Page
 const HomePage = () => {
   return (
-    <div style={{ minHeight: '100vh', background: '#000', color: 'white' }}>
+    <div style={{ minHeight: '100vh', background: 'white', color: 'black' }}>
       <Navigation />
       <Hero />
-      <Footer />
+      <div css={css`
+        @media (max-width: 768px) {
+          display: none;
+        }
+      `}>
+      </div>
     </div>
   );
 };
