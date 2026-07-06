@@ -370,6 +370,7 @@ const Hero = () => {
       
       // Bounce off walls
       const bounceElasticity = 0.6; // 0-1, higher = bouncier
+      const padding = 100;
       
       if (currentPos.x < 0) {
         currentPos.x = 0;
