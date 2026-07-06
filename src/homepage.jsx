@@ -432,8 +432,8 @@ const Hero = () => {
     }
 
     @media (max-width: 768px) {
-      width: 120px !important;
-      height: ${positions[idx]?.landscape ? '67px' : '160px'} !important;
+      width: 110px !important;
+      height: ${positions[idx]?.landscape ? '62px' : '146px'} !important;
     }
   `;
 
