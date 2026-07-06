@@ -363,30 +363,32 @@ const Hero = () => {
     
     const applyMomentum = () => {
       currentVelocity.x *= friction;
-      currentVelocity.y *= friction;
-      
-      currentPos.x += currentVelocity.x;
-      currentPos.y += currentVelocity.y;
-      
-      // Bounce off walls
-      const bounceElasticity = 0.6; // 0-1, higher = bouncier
-      const padding = 10;
-      
-      if (currentPos.x < padding) {
-        currentPos.x = padding;
-        currentVelocity.x *= -bounceElasticity;
-      } else if (currentPos.x > window.innerWidth - 100 - padding) {
-        currentPos.x = window.innerWidth - 100 - padding;
-        currentVelocity.x *= -bounceElasticity;
-      }
-      
-      if (currentPos.y < padding) {
-        currentPos.y = padding;
-        currentVelocity.y *= -bounceElasticity;
-      } else if (currentPos.y > window.innerHeight - 100 - padding) {
-        currentPos.y = window.innerHeight - 100 - padding;
-        currentVelocity.y *= -bounceElasticity;
-      }
+  currentVelocity.y *= friction;
+  
+  currentPos.x += currentVelocity.x;
+  currentPos.y += currentVelocity.y;
+  
+  // Bounce off walls
+  const bounceElasticity = 0.6;
+  const verticalPadding = 50; // Only for top/bottom
+  
+  // No padding for sides (x-axis)
+  if (currentPos.x < 0) {
+    currentPos.x = 0;
+    currentVelocity.x *= -bounceElasticity;
+  } else if (currentPos.x > window.innerWidth - 100) {
+    currentPos.x = window.innerWidth - 100;
+    currentVelocity.x *= -bounceElasticity;
+  }
+  
+  // Padding for top/bottom only (y-axis)
+  if (currentPos.y < verticalPadding) {
+    currentPos.y = verticalPadding;
+    currentVelocity.y *= -bounceElasticity;
+  } else if (currentPos.y > window.innerHeight - 100 - verticalPadding) {
+    currentPos.y = window.innerHeight - 100 - verticalPadding;
+    currentVelocity.y *= -bounceElasticity;
+  }
       
       setPositions(prev => ({
         ...prev,
