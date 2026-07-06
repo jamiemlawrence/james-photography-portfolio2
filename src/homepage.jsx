@@ -370,21 +370,21 @@ const Hero = () => {
       
       // Bounce off walls
       const bounceElasticity = 0.6; // 0-1, higher = bouncier
-      const padding = 100;
+      const padding = 10;
       
-      if (currentPos.x < 0) {
-        currentPos.x = 0;
+      if (currentPos.x < padding) {
+        currentPos.x = padding;
         currentVelocity.x *= -bounceElasticity;
-      } else if (currentPos.x > window.innerWidth - 100) {
-        currentPos.x = window.innerWidth - 100;
+      } else if (currentPos.x > window.innerWidth - 100 - padding) {
+        currentPos.x = window.innerWidth - 100 - padding;
         currentVelocity.x *= -bounceElasticity;
       }
       
-      if (currentPos.y < 0) {
-        currentPos.y = 0;
+      if (currentPos.y < padding) {
+        currentPos.y = padding;
         currentVelocity.y *= -bounceElasticity;
-      } else if (currentPos.y > window.innerHeight - 100) {
-        currentPos.y = window.innerHeight - 100;
+      } else if (currentPos.y > window.innerHeight - 100 - padding) {
+        currentPos.y = window.innerHeight - 100 - padding;
         currentVelocity.y *= -bounceElasticity;
       }
       
@@ -433,7 +433,7 @@ const Hero = () => {
     }
 
     @media (max-width: 768px) {
-      width: 110px !important;
+      width: 90px !important;
       height: ${positions[idx]?.landscape ? '62px' : '146px'} !important;
     }
   `;
