@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { css, keyframes } from '@emotion/react';
 import { Instagram, Mail, Menu, X } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
@@ -212,7 +212,7 @@ const Hero = () => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
 
-  const images = [
+  const images = useMemo(() => [
     { src: '/photos/cycle27.jpg', landscape: false },
     { src: '/photos/photoski.jpg', landscape: false },
     { src: '/photos/horizontal12.jpg', landscape: true },
@@ -238,7 +238,7 @@ const Hero = () => {
     { src: '/photos/cover11.png', landscape: true },
     { src: '/photos/auto6.png', landscape: false },
     { src: '/photos/DSC06225.jpg', landscape: false },
-  ];
+  ], []);
 
   // Initialize random positions - smaller on mobile
   useEffect(() => {
