@@ -258,7 +258,7 @@ const Hero = () => {
       }
     });
     setPositions(newPositions);
-  }, []);
+  }, [images]);
 
   useEffect(() => {
     const handleWindowResize = () => {
