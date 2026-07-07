@@ -1146,65 +1146,6 @@ const VideoPage = () => {
     }
   `;
 
-  // NEW: Vertical video style for reels
-  const verticalVideoStyles = css`
-  position: relative;
-  padding-bottom: 177.78%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-  margin: 0 auto;
-  background: black;
-
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  `;
-
-  // NEW: Grid for vertical videos (without place-items: center)
-  const verticalVideoGridStyles = css`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  max-width: 100%;
-  margin: 0 auto;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3rem;
-    max-width: 900px;
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4rem;
-  }
-  `;
-
-  const instagramGridStyles = css`
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 100%;
-    margin: 0 auto;
-    place-items: center;
-
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3rem;
-      max-width: 900px;
-    }
-
-    @media (min-width: 1024px) {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4rem;
-    }
-  `;
-
   return (
     <div style={{ minHeight: '100vh', background: '#000' }}>
       <Navigation />
