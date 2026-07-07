@@ -1102,6 +1102,27 @@ const VideoPage = () => {
     }
   `;
 
+  const subHeadingStyles = css`
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+    letter-spacing: -0.025em;
+
+    @media (min-width: 768px) {
+      font-size: 1.75rem;
+      margin-bottom: 2.5rem;
+      margin-top: 4rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 2rem;
+      margin-top: 5rem;
+    }
+  `;
+
   const videoContainerStyles = css`
     position: relative;
     padding-bottom: 56.25%;
@@ -1125,6 +1146,65 @@ const VideoPage = () => {
     }
   `;
 
+  // NEW: Vertical video style for reels
+  const verticalVideoStyles = css`
+  position: relative;
+  padding-bottom: 177.78%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0 auto;
+  background: black;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  `;
+
+  // NEW: Grid for vertical videos (without place-items: center)
+  const verticalVideoGridStyles = css`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    max-width: 900px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+  }
+  `;
+
+  const instagramGridStyles = css`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 100%;
+    margin: 0 auto;
+    place-items: center;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      max-width: 900px;
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4rem;
+    }
+  `;
+
   return (
     <div style={{ minHeight: '100vh', background: '#000' }}>
       <Navigation />
@@ -1133,6 +1213,7 @@ const VideoPage = () => {
           <FadeIn>
             <h2 css={headingStyles}>VIDEO</h2>
           </FadeIn>
+          
           <FadeIn delay={0.2}>
             <div css={videoContainerStyles}>
               <iframe 
@@ -1143,6 +1224,94 @@ const VideoPage = () => {
               />
             </div>
           </FadeIn>
+
+          {/* Social Reels Section */}
+          <FadeIn delay={0.3}>
+            <h3 css={subHeadingStyles}>Social Reels</h3>
+          </FadeIn>
+
+          <FadeIn delay={0.4}>
+  <div style={{ marginTop: '3rem', maxWidth: '1000px', margin: '3rem auto 0', padding: '0 1rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+      {/* Reel 1 */}
+      <div style={{ maxWidth: '100%' }}>
+        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+          <iframe 
+            src="https://player.vimeo.com/video/1207570210?badge=0&autopause=0&player_id=0&app_id=58479"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            title="Slowing things down a bit in Nice"
+          />
+        </div>
+      </div>
+
+      {/* Reel 2 */}
+      <div style={{ maxWidth: '100%' }}>
+        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+          <iframe 
+            src="https://player.vimeo.com/video/1207573810?badge=0&autopause=0&player_id=0&app_id=58479"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            title="This is what it means ❤️"
+          />
+        </div>
+      </div>
+
+      {/* Reel 3 */}
+      <div style={{ maxWidth: '100%' }}>
+        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+          <iframe 
+            src="https://player.vimeo.com/video/1207574309?badge=0&autopause=0&player_id=0&app_id=58479"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            title="Round 7 of the summer series"
+          />
+        </div>
+      </div>
+      {/* Reel 4 */}
+      <div style={{ maxWidth: '100%' }}>
+        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+          <iframe 
+            src="https://player.vimeo.com/video/1207579381?badge=0&autopause=0&player_id=0&app_id=58479"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            title="Groupama FDJ - Couchview"
+          />
+        </div>
+      </div>
+
+      {/* Reel 5 */}
+      <div style={{ maxWidth: '100%' }}>
+        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+          <iframe 
+            src="https://player.vimeo.com/video/1207579524?badge=0&autopause=0&player_id=0&app_id=58479"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            title="Lachlan Morton Unbound - EF Pro Cycling"
+          />
+        </div>
+      </div>
+
+      {/* Reel 6 */}
+      <div style={{ maxWidth: '100%' }}>
+        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+          <iframe 
+            src="https://player.vimeo.com/video/1207579916?badge=0&autopause=0&player_id=0&app_id=58479"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            title="Yuma - Maap"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</FadeIn>
         </div>
       </section>
       <Footer />
