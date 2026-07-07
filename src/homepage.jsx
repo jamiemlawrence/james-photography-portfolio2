@@ -1172,87 +1172,112 @@ const VideoPage = () => {
           </FadeIn>
 
           <FadeIn delay={0.4}>
-  <div style={{ marginTop: '3rem', maxWidth: '1000px', margin: '3rem auto 0', padding: '0 1rem' }}>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
-      {/* Reel 1 */}
-      <div style={{ maxWidth: '100%' }}>
-        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
-          <iframe 
-            src="https://player.vimeo.com/video/1207570210?badge=0&autopause=0&player_id=0&app_id=58479"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            title="Slowing things down a bit in Nice"
-          />
-        </div>
-      </div>
+          <div style={{ marginTop: '3rem', maxWidth: '1000px', margin: '3rem auto 0', padding: '0 1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '2rem' }}>
+              {/* Reel 1 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207570210?badge=0&autopause=0&player_id=0&app_id=58479"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="Slowing things down a bit in Nice"
+                  />
+                </div>
+              </div>
 
-      {/* Reel 2 */}
-      <div style={{ maxWidth: '100%' }}>
-        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
-          <iframe 
-            src="https://player.vimeo.com/video/1207573810?badge=0&autopause=0&player_id=0&app_id=58479"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            title="This is what it means ❤️"
-          />
-        </div>
-      </div>
+              {/* Reel 2 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207573810?badge=0&autopause=0&player_id=0&app_id=58479"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="This is what it means ❤️"
+                  />
+                </div>
+              </div>
 
-      {/* Reel 3 */}
-      <div style={{ maxWidth: '100%' }}>
-        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
-          <iframe 
-            src="https://player.vimeo.com/video/1207574309?badge=0&autopause=0&player_id=0&app_id=58479"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            title="Round 7 of the summer series"
-          />
-        </div>
-      </div>
-      {/* Reel 4 */}
-      <div style={{ maxWidth: '100%' }}>
-        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
-          <iframe 
-            src="https://player.vimeo.com/video/1207579381?badge=0&autopause=0&player_id=0&app_id=58479"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            title="Groupama FDJ - Couchview"
-          />
-        </div>
-      </div>
+              {/* Reel 3 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207574309?badge=0&autopause=0&player_id=0&app_id=58479"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="Round 7 of the summer series"
+                  />
+                </div>
+              </div>
+              {/* Reel 4 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207579381?badge=0&autopause=0&player_id=0&app_id=58479"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="Groupama FDJ - Couchview"
+                  />
+                </div>
+              </div>
 
-      {/* Reel 5 */}
-      <div style={{ maxWidth: '100%' }}>
-        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
-          <iframe 
-            src="https://player.vimeo.com/video/1207579524?badge=0&autopause=0&player_id=0&app_id=58479"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            title="Lachlan Morton Unbound - EF Pro Cycling"
-          />
-        </div>
-      </div>
+              {/* Reel 5 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207579524?badge=0&autopause=0&player_id=0&app_id=58479"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="Lachlan Morton Unbound - EF Pro Cycling"
+                  />
+                </div>
+              </div>
 
-      {/* Reel 6 */}
-      <div style={{ maxWidth: '100%' }}>
-        <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
-          <iframe 
-            src="https://player.vimeo.com/video/1207579916?badge=0&autopause=0&player_id=0&app_id=58479"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            title="Yuma - Maap"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</FadeIn>
+              {/* Reel 6 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207579916?badge=0&autopause=0&player_id=0&app_id=58479"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="Yuma - Maap"
+                  />
+                </div>
+              </div>
+              {/* Reel 7 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207582505?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="T Shirt Ride - Team Best"
+                  />
+                </div>
+              </div>
+
+              {/* Reel 8 */}
+              <div style={{ maxWidth: '100%' }}>
+                <div style={{ padding: '177.78% 0 0 0', position: 'relative', background: 'black' }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1207582657?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    title="Flanders - Couchview"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
         </div>
       </section>
       <Footer />
