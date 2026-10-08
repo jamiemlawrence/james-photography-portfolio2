@@ -1803,14 +1803,14 @@ const WeddingsPage = () => {
   const [currentImages, setCurrentImages] = useState([]);
 
   const weddingPhotos = [
-    { name: 'nakamura', count: 5, horizontalIndices: [3] },
+    { name: 'nakamura', count: 4, horizontalIndices: [3] },
+    { name: 'kranz', count: 4, horizontalIndices: [1] },
     { name: 'warren', count: 6, horizontalIndices: [] },
-    { name: 'gonzalez', count: 3, horizontalIndices: [0] },
     { name: 'rogers', count: 3, horizontalIndices: [] },
-    { name: 'israel', count: 2, horizontalIndices: [0] },
     { name: 'johnson', count: 3, horizontalIndices: [] },
-    { name: 'delmar', count: 3, horizontalIndices: [] },
-    { name: 'kranz', count: 4, horizontalIndices: [1] }
+    { name: 'gonzalez', count: 3, horizontalIndices: [0] },
+    { name: 'israel', count: 2, horizontalIndices: [0] },
+    { name: 'delmar', count: 3, horizontalIndices: [] }
   ];
 
   const allPhotos = (() => {
