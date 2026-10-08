@@ -4,8 +4,6 @@ import { css, keyframes } from '@emotion/react';
 import { Instagram, Mail, Menu, X } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import Lightbox from "yet-another-react-lightbox";
-import { HelmetProvider } from 'react-helmet-async';
-import { Helmet } from 'react-helmet-async';
 /*import Download from "yet-another-react-lightbox/plugins/download";*/
 import "yet-another-react-lightbox/styles.css";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
@@ -1938,12 +1936,6 @@ const WeddingsPage = () => {
 
   return (
     <div css={pageStyles}>
-      <Helmet>
-        <title>Weddings | James Lawrence Photography</title>
-        <meta property="og:title" content="Weddings | James Lawrence Photography" />
-        <meta property="og:image" content="https://jamesphotographyco.com/photos/weddings/wedding-1-nakamura/nakamura-1.jpg" />
-        <meta property="og:url" content="https://jamesphotographyco.com/weddings" />
-      </Helmet>
       <Navigation />
       
       <div css={containerStyles}>
@@ -2409,7 +2401,6 @@ const EventGalleryPage = () => {
 // Main App with Router
 export default function PhotographyWebsite() {
   return (
-    <HelmetProvider>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -2420,6 +2411,5 @@ export default function PhotographyWebsite() {
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </Router>
-    </HelmetProvider>
   );
 }
