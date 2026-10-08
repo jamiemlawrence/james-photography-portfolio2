@@ -1956,7 +1956,7 @@ const WeddingsPage = () => {
               >
                 <img
                   src={photo.src}
-                  alt={`Wedding photo ${idx + 1}`}
+                  alt={`Wedding ${idx + 1}`}
                   css={photoImageStyles}
                 />
               </div>
