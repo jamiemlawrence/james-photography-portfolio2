@@ -166,6 +166,7 @@ const Navigation = () => {
             <Link to="/" css={linkStyles}>Home</Link>
             <Link to="/photos" css={linkStyles}>Photo</Link>
             <Link to="/video" css={linkStyles}>Video</Link>
+            <Link to="/weddings" css={linkStyles}>Weddings</Link>
             <Link to="/couchview" css={linkStyles}>CouchView</Link>
           </div>
 
@@ -196,6 +197,7 @@ const Navigation = () => {
             <Link to="/" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Home</Link>
             <Link to="/photos" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Photo</Link>
             <Link to="/video" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Video</Link>
+            <Link to="/weddings" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Weddings</Link>
             <Link to="/couchview" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>CouchView</Link>
             {/*<Link to="/events" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Events</Link>*/}
             <Link to="/contact" css={mobileLinkStyles} onClick={() => setMobileMenuOpen(false)}>Contact</Link>
@@ -1794,6 +1796,193 @@ const EventsPage = () => {
   );
 };*/
 
+// WEDDINGS PAGE
+const WeddingsPage = () => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentImages, setCurrentImages] = useState([]);
+
+  const weddingPhotos = [
+    { name: 'nakamura', count: 5, horizontalIndices: [3] },
+    { name: 'warren', count: 6, horizontalIndices: [] },
+    { name: 'gonzalez', count: 3, horizontalIndices: [0] },
+    { name: 'rogers', count: 3, horizontalIndices: [] },
+    { name: 'israel', count: 2, horizontalIndices: [0] },
+    { name: 'johnson', count: 3, horizontalIndices: [] },
+    { name: 'delmar', count: 3, horizontalIndices: [] },
+    { name: 'kranz', count: 4, horizontalIndices: [1] }
+  ];
+
+  const allPhotos = (() => {
+    const photos = weddingPhotos.flatMap((wedding) => {
+      return Array.from({ length: wedding.count }, (_, i) => ({
+        src: `/photos/weddings/wedding-${weddingPhotos.indexOf(wedding) + 1}-${wedding.name}/${wedding.name}-${i + 1}${wedding.horizontalIndices.includes(i) ? '-horizontal' : ''}.jpg`,
+        isHorizontal: wedding.horizontalIndices.includes(i)
+      }));
+    });
+  
+    const horizontal = photos.filter(p => p.isHorizontal);
+    const vertical = photos.filter(p => !p.isHorizontal);
+  
+    const result = [];
+    let vIndex = 0;
+    let hIndex = 0;
+  
+    while (vIndex < vertical.length || hIndex < horizontal.length) {
+      for (let i = 0; i < 3 && vIndex < vertical.length; i++) {
+        result.push(vertical[vIndex++]);
+      }
+      if (hIndex < horizontal.length) {
+        result.push(horizontal[hIndex++]);
+      }
+    }
+  
+    return result;
+  })();
+
+  const openGallery = (images, index = 0) => {
+    setCurrentImages(images);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const pageStyles = css`
+    min-height: 100vh;
+    background: white;
+  `;
+
+  const containerStyles = css`
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 5rem 1rem;
+
+    @media (min-width: 768px) {
+      padding: 6rem 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 7rem 1.5rem;
+    }
+  `;
+
+  const titleStyles = css`
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+    color: black;
+
+    @media (min-width: 768px) {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 3.5rem;
+    }
+  `;
+
+  const subtitleStyles = css`
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+    font-size: 1rem;
+
+    @media (min-width: 768px) {
+      font-size: 1.125rem;
+      margin-bottom: 4rem;
+    }
+  `;
+
+  const gridStyles = css`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    > div:has(> div[data-horizontal="true"]) {
+      grid-column: 1 / -1;
+    }
+  `;
+
+  const photoContainerStyles = (isHorizontal) => css`
+    position: relative;
+    aspect-ratio: ${isHorizontal ? '16 / 9' : '3 / 4'};
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+    background: #f0f0f0;
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+  `;
+
+  const photoImageStyles = css`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  `;
+
+  return (
+    <div css={pageStyles}>
+      <Navigation />
+      
+      <div css={containerStyles}>
+        <FadeIn>
+          <h1 css={titleStyles}>Weddings</h1>
+          <p css={subtitleStyles}>
+            Reach out if you'd like me to shoot yours! 
+          </p>
+        </FadeIn>
+
+        <div css={gridStyles}>
+          {allPhotos.map((photo, idx) => (
+            <FadeIn key={idx} delay={Math.min(idx * 0.05, 0.5)}>
+              <div
+                css={photoContainerStyles(photo.isHorizontal)}
+                data-horizontal={photo.isHorizontal}
+                onClick={() => openGallery(allPhotos.map(p => p.src), idx)}
+              >
+                <img
+                  src={photo.src}
+                  alt={`Wedding photo ${idx + 1}`}
+                  css={photoImageStyles}
+                />
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={currentImages.map(src => ({ src }))}
+        styles={{
+          container: { backgroundColor: "rgba(0, 0, 0, 0.95)" }
+        }}
+        carousel={{ finite: false }}
+        controller={{ closeOnBackdropClick: true }}
+      />
+
+      <Footer />
+    </div>
+  );
+};
+
+
 // CONTACT PAGE
 const ContactPage = () => {
   const pageStyles = css`
@@ -2217,6 +2406,7 @@ export default function PhotographyWebsite() {
         <Route path="/" element={<HomePage />} />
         <Route path="/photos" element={<PhotosPage />} />
         <Route path="/video" element={<VideoPage />} />
+        <Route path="/weddings" element={<WeddingsPage />} />
         <Route path="/couchview" element={<CouchViewPage />} />
         {/*<Route path="/events" element={<EventsPage />} />*/}
         {/*<Route path="/events/:eventId" element={<EventGalleryPage />} />*/}
