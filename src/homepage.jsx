@@ -242,6 +242,7 @@ const Hero = () => {
     { src: '/photos/cycle15.jpg', landscape: false },
     { src: '/photos/cover11.png', landscape: true },
     { src: '/photos/auto6.png', landscape: false },
+    { src: '/photos/ski21.jpg', landscape: true},
     { src: '/photos/DSC06225.jpg', landscape: false },
   ], []);
 
@@ -787,6 +788,7 @@ const PortfolioGrid = () => {
         '/photos/ski20.jpg',
         '/photos/ski4.jpg',
         '/photos/ski12.jpg',
+        '/photos/ski21.jpg',
         '/photos/ski5.jpg',
         '/photos/ski8.jpg',
         '/photos/ski9.jpg'
