@@ -226,7 +226,6 @@ const Hero = () => {
     { src: '/photos/ski6.jpg', landscape: false },
     { src: '/photos/cycle36.jpg', landscape: false },
     { src: '/photos/cycle39.jpg', landscape: false},
-    { src: '/photos/cycle43.jpg', landscape: false},
     { src: '/photos/auto2.jpeg', landscape: false },
     { src: '/photos/food5.jpg', landscape: false },
     { src: '/photos/cycle0.jpg', landscape: false },
