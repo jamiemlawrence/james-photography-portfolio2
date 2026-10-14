@@ -800,10 +800,10 @@ const PortfolioGrid = () => {
         '/photos/auto2.jpeg',
         '/photos/auto1.jpeg',
         '/photos/auto4.jpeg',
-        '/photos/auto5.jpg',
-        '/photos/auto6.jpg',
-        '/photos/auto7.jpg',
-        '/photos/auto8.jpg',
+        '/photos/auto5.png',
+        '/photos/auto6.png',
+        '/photos/auto7.png',
+        '/photos/auto8.png',
         '/photos/auto9.jpg'
       ]
     },
