@@ -645,10 +645,10 @@ const Contact = () => {
             {/* Right: About Text */}
             <div>
               <p css={paragraphStyles}>
-                Hi! I'm a passionate producer, photographer, and videographer.
+                Hi! I'm a photographer, videographer, and social content producer.
               </p>
               <p css={paragraphStyles}>
-                I'd love the opportunity to create. Whether it's lifestyle, adventure, products, events, or something new. Feel free to reach out, I'd be happy to chat!
+                I'd love the opportunity to create. I'm into lifestyle, sports, products, events, or anything adventurous. Feel free to reach out, I'd be happy to chat!
               </p>
             </div>
           </div>
@@ -1546,7 +1546,7 @@ const CouchViewPage = () => {
         <FadeIn>
           <h1 css={heroTitleStyles}>CouchView</h1>
           <p css={heroSubtitleStyles}>
-            Visual storytelling of a fan-first cycling brand.
+            Visual collections from the fans of cycling.
           </p>
           <div css={heroLinksStyles}>
             <a 
